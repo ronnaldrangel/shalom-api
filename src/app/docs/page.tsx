@@ -140,19 +140,34 @@ export default function DocsPage() {
               </div>
             </div>
 
-            {/* Sincronización */}
+            {/* API de Búsqueda por Nombre */}
             <div className="border border-gray-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">🔄 Sincronización Manual</h3>
-              <code className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-mono">POST /api/sync</code>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">🏢 API de Búsqueda por Nombre</h3>
+              <code className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-mono">GET /api/agencia?q=término</code>
               <p className="text-gray-600 mt-2">
-                Ejecuta manualmente la sincronización con la API externa para obtener datos actualizados.
+                Busca agencias únicamente por el campo (nombre). Ideal para búsquedas específicas de agencias.
               </p>
-              <button
-                onClick={handleSync}
-                className="mt-2 bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors"
-              >
-                Sincronizar Ahora
-              </button>
+              <div className="mt-2 space-y-1">
+                <p className="text-sm text-gray-500">Ejemplos:</p>
+                <div className="space-y-1">
+                  <a
+                    href="/api/agencia?q=lima"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-green-600 hover:text-green-800 underline text-sm font-mono"
+                  >
+                    /api/agencia?q=lima
+                  </a>
+                  <a
+                    href="/api/agencia?q=centro"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-green-600 hover:text-green-800 underline text-sm font-mono"
+                  >
+                    /api/agencia?q=centro
+                  </a>
+                </div>
+              </div>
             </div>
 
             {/* Cron Job */}
