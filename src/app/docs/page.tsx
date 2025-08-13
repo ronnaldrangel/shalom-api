@@ -240,6 +240,41 @@ https://shalom-api.wazend.net/api/listar`}</code>
               </div>
             </div>
 
+            {/* API de Imagen */}
+            <div className="border border-gray-200 rounded-lg p-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">🖼️ API de Imagen (Vista Compacta)</h3>
+              <code className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm font-mono">GET /api/image?q=término</code>
+              <p className="text-gray-600 mt-2">
+                Genera una imagen PNG dinámica con los resultados de búsqueda en formato de 2 columnas. Muestra lugar_over como título y dirección truncada y capitalizada. Ideal para embeds, previews y compartir en redes sociales.
+              </p>
+              <div className="mt-2 space-y-1">
+                <p className="text-sm text-gray-500">Ejemplos:</p>
+                <div className="space-y-1">
+                  <a
+                    href="/api/image?q=lima"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-purple-600 hover:text-purple-800 underline text-sm font-mono"
+                  >
+                    /api/image?q=lima
+                  </a>
+                  <a
+                    href="/api/image?q=centro"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-purple-600 hover:text-purple-800 underline text-sm font-mono"
+                  >
+                    /api/image?q=centro
+                  </a>
+                </div>
+              </div>
+              <div className="mt-3 p-3 bg-purple-50 border border-purple-200 rounded">
+                <p className="text-purple-800 text-sm">
+                  <strong>Formato:</strong> PNG 2 columnas | <strong>Texto:</strong> Direcciones truncadas y capitalizadas | <strong>Cache:</strong> 30 minutos | <strong>Máximo:</strong> 20 agencias
+                </p>
+              </div>
+            </div>
+
             {/* Cron Job */}
             <div className="border border-gray-200 rounded-lg p-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center">
