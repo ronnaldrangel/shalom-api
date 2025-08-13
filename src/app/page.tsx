@@ -350,19 +350,19 @@ export default function AgenciasPage() {
 
       {/* Footer */}
       <footer className="bg-white border-t mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="text-center">
-            <p className="text-xs text-gray-400">
-              ShalomAPI - API gratuita para consultar agencias Shalom | Desarrollado por <a href="https://wazend.net/" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-gray-600">Wazend</a>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center space-y-4">
+            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
+              ShalomAPI - API gratuita para consultar agencias Shalom
+              <br className="sm:hidden" />
+              <span className="hidden sm:inline"> | </span>
+              Desarrollado por <a href="https://wazend.net/" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-red-600 transition-colors">Wazend</a>
             </p>
-            <div className="mt-3 flex justify-center space-x-4 text-xs text-gray-400">
-              <span>API REST</span>
-              <span>•</span>
-              <span>Tiempo Real</span>
-              <span>•</span>
-              <span>Gratuita</span>
-              <span>•</span>
-              <span>Documentación Completa</span>
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400">
+              <span className="bg-gray-50 px-2 py-1 rounded">API REST</span>
+              <span className="bg-gray-50 px-2 py-1 rounded">Tiempo Real</span>
+              <span className="bg-gray-50 px-2 py-1 rounded">Gratuita</span>
+              <span className="bg-gray-50 px-2 py-1 rounded">Documentación Completa</span>
             </div>
           </div>
         </div>
