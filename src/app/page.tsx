@@ -252,7 +252,7 @@ export default function AgenciasPage() {
                 
                 {isMinimalMode ? (
                   /* Vista Minimal */
-                  <div className="p-2 md:p-4 group">
+                  <div className="p-4 md:p-4 group">
                     <div className="flex items-center">
                       <MapPinIcon className="w-10 h-auto text-red-600 mr-3 flex-shrink-0" />
 
