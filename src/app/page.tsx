@@ -291,9 +291,7 @@ export default function AgenciasPage() {
 
                       <div className="flex items-start mb-6">
                         <a
-                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                            agencia.direccion + ', ' + agencia.provincia + ', ' + agencia.departamento
-                          )}`}
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${agencia.latitud},${agencia.longitud}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center text-sm text-red-600 font-semibold underline decoration-red-600"
