@@ -164,7 +164,7 @@ export default function AgenciasPage() {
             <div className="flex items-center gap-4">
               <Link
                 href="/docs"
-                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap"
+                className="bg-red-600 text-sm text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap"
               >
                 📚 Documentación
               </Link>
