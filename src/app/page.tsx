@@ -64,39 +64,33 @@ export default function AgenciasPage() {
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [apiKey, setApiKey] = useState<string | null>(null);
-  const [isMinimalMode, setIsMinimalMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('isMinimalMode');
-      return saved !== null ? JSON.parse(saved) : true;
-    }
-    return true;
-  });
+  const [isMinimalMode, setIsMinimalMode] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     fetchAgencias();
+    
+    // Cargar estado del localStorage después del montaje
+    const saved = localStorage.getItem('isMinimalMode');
+    if (saved !== null) {
+      setIsMinimalMode(JSON.parse(saved));
+    }
   }, []);
 
-  const getApiKey = async (): Promise<string> => {
-    if (apiKey) return apiKey;
-    
-    try {
-      const response = await fetch('/api/auth');
-      const data = await response.json();
-      setApiKey(data.apiKey);
-      return data.apiKey;
-    } catch (error) {
-      console.error('Error obteniendo API key:', error);
-      return 'shalom-api-key-2024'; // fallback
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('isMinimalMode', JSON.stringify(isMinimalMode));
     }
-  };
+  }, [isMinimalMode, isClient]);
 
   const fetchAgencias = async () => {
     try {
       setLoading(true);
-      const currentApiKey = await getApiKey();
-      const response = await fetch('/api/listar', {
+      const response = await fetch('/api/front', {
+        method: 'GET',
         headers: {
-          'x-api-key': currentApiKey
+          'Content-Type': 'application/json'
         }
       });
       const data: ApiResponse = await response.json();
@@ -317,15 +311,13 @@ export default function AgenciasPage() {
                   Vista Minimal
                 </span>
                 <button
-                  onClick={() => {
-                    const newMode = !isMinimalMode;
-                    setIsMinimalMode(newMode);
-                    localStorage.setItem('isMinimalMode', JSON.stringify(newMode));
-                  }}
+                  onClick={() => setIsMinimalMode(!isMinimalMode)}
+                  suppressHydrationWarning
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ${isMinimalMode ? 'bg-white' : 'bg-red-800'
                     }`}
                 >
                   <span
+                    suppressHydrationWarning
                     className={`inline-block h-4 w-4 transform rounded-full transition-transform ${isMinimalMode ? 'translate-x-6 bg-red-600' : 'translate-x-1 bg-white'
                       }`}
                   />

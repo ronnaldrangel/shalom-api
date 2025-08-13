@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { useState } from 'react';
 import {
   CodeBracketIcon,
   DocumentTextIcon,
@@ -11,29 +10,13 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function DocsPage() {
-  const [apiKey, setApiKey] = useState<string | null>(null);
-
-  const getApiKey = async (): Promise<string> => {
-    if (apiKey) return apiKey;
-    
-    try {
-      const response = await fetch('/api/auth');
-      const data = await response.json();
-      setApiKey(data.apiKey);
-      return data.apiKey;
-    } catch (error) {
-      console.error('Error obteniendo API key:', error);
-      return 'shalom-api-key-2024'; // fallback
-    }
-  };
 
   const handleSync = async () => {
     try {
-      const currentApiKey = await getApiKey();
       const response = await fetch('/api/sync', { 
         method: 'POST',
         headers: {
-          'x-api-key': currentApiKey
+          'x-api-key': 'shalom-api-key-2024'
         }
       });
       const data = await response.json();
