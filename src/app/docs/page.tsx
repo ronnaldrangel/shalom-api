@@ -34,7 +34,7 @@ export default function DocsPage() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
             <div className="flex-1">
-              <h1 className="text-xl md:text-3xl font-bold text-white">Documentación - ShalomAPI</h1>
+              <h1 className="text-xl md:text-3xl font-bold text-white">Documentación - Shalom API</h1>
               <p className="text-red-100 mt-1 text-sm md:text-base">
                 Guía completa para usar la API de agencias Shalom - Endpoints, ejemplos y mejores prácticas
               </p>
@@ -89,7 +89,7 @@ export default function DocsPage() {
               <button
                 onClick={() => {
                   const message = encodeURIComponent(
-                    "Hola, me gustaría solicitar acceso al API key de ShalomAPI. Gracias!"
+                    "Hola, me gustaría solicitar acceso al API key de Shalom API. Gracias!"
                   );
                   window.open(`https://wa.me/51924079147?text=${message}`, '_blank');
                 }}

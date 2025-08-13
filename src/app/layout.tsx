@@ -14,48 +14,57 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ShalomAPI - API de Agencias Shalom | Consulta Agencias en Tiempo Real",
-  description: "ShalomAPI es la API oficial para consultar agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de todas las agencias Shalom. API gratuita para desarrolladores.",
+  title: "Shalom | Shalom API | Shalom Agencias - API Oficial de Agencias Shalom",
+  description: "Shalom API oficial - Consulta todas las agencias Shalom en tiempo real. Shalom agencias con ubicaciones, horarios y servicios. API gratuita Shalom para desarrolladores. Encuentra tu agencia Shalom más cercana.",
   keywords: [
     "Shalom",
     "shalom api",
-    "shalom api agencias",
     "shalom agencias",
+    "agencias shalom",
+    "API shalom",
+    "shalom api agencias",
+    "shalom ubicaciones",
+    "shalom horarios",
+    "shalom servicios",
     "API agencias",
-    "agencias Shalom",
-    "ubicaciones Shalom",
-    "horarios agencias",
-    "servicios Shalom",
-    "API gratuita",
-    "consulta agencias"
+    "consulta agencias shalom",
+    "agencias Shalom Peru",
+    "shalom lima",
+    "shalom API gratuita",
+    "directorio agencias shalom"
   ],
   authors: [{ name: "Wazend" }],
   creator: "Wazend",
   publisher: "Wazend",
   robots: "index, follow",
   openGraph: {
-    title: "ShalomAPI - API de Agencias Shalom",
-    description: "Consulta agencias Shalom en tiempo real. API gratuita con información de ubicaciones, horarios y servicios.",
+    title: "Shalom | Shalom API | Shalom Agencias - Consulta Agencias en Tiempo Real",
+    description: "Shalom API oficial para consultar todas las agencias Shalom. Encuentra ubicaciones, horarios y servicios de agencias Shalom en tiempo real. API gratuita.",
     type: "website",
     locale: "es_ES",
-    siteName: "ShalomAPI",
+    siteName: "Shalom API",
     images: [
       {
         url: "/cover.png",
         width: 1200,
         height: 630,
-        alt: "ShalomAPI - API de Agencias Shalom"
+        alt: "Shalom API - Consulta Agencias Shalom en Tiempo Real"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "ShalomAPI - API de Agencias Shalom",
-    description: "Consulta agencias Shalom en tiempo real. API gratuita con información completa.",
+    title: "Shalom | Shalom API | Shalom Agencias",
+    description: "API oficial Shalom - Consulta agencias Shalom en tiempo real. Ubicaciones, horarios y servicios de todas las agencias Shalom.",
     images: ["/cover.png"]
   },
   alternates: {
     canonical: "https://shalom-api.wazend.net"
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico"
   }
 };
 
@@ -67,8 +76,8 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "ShalomAPI",
-    "description": "API gratuita para consultar agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de todas las agencias Shalom.",
+    "name": "Shalom API - API Oficial de Agencias Shalom",
+    "description": "Shalom API oficial para consultar todas las agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de agencias Shalom. API gratuita para desarrolladores.",
     "url": "https://shalom-api.wazend.net",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Web",
@@ -81,7 +90,7 @@ export default function RootLayout({
       "@type": "Organization",
       "name": "Wazend"
     },
-    "keywords": "Shalom, shalom api, shalom api agencias, shalom agencias, API agencias, ubicaciones Shalom, horarios agencias, servicios Shalom"
+    "keywords": "Shalom, shalom api, shalom agencias, agencias shalom, API shalom, shalom api agencias, shalom ubicaciones, shalom horarios, shalom servicios, consulta agencias shalom, agencias Shalom Peru, shalom lima"
   };
 
   return (
