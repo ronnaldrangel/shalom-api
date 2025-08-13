@@ -143,16 +143,19 @@ export default function AgenciasPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="shadow-sm border-b" style={{ backgroundColor: '#ee2a2f' }}>
+      <header className="shadow-sm border-b" style={{ backgroundColor: '#ee2a2f' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex-1">
-              <h1 className="text-xl md:text-3xl font-bold text-white">ShalomAPI</h1>
-              <p className="text-red-100 mt-1">
-                {filteredAgencias.length} de {agencias.length} agencias
+              <h1 className="text-xl md:text-3xl font-bold text-white">ShalomAPI - API de Agencias Shalom</h1>
+              <p className="text-red-100 mt-1 text-sm md:text-base">
+                Consulta en tiempo real todas las agencias Shalom. API gratuita para desarrolladores.
+              </p>
+              <p className="text-red-100 mt-1 text-xs md:text-sm">
+                {filteredAgencias.length} de {agencias.length} agencias disponibles
                 {lastUpdated && (
-                  <span className="ml-2 text-sm">
-                    • Última actualización: {new Date(lastUpdated).toLocaleString('es-ES')}
+                  <span className="ml-2">
+                    • Actualizado: {new Date(lastUpdated).toLocaleString('es-ES')}
                   </span>
                 )}
               </p>
@@ -189,12 +192,13 @@ export default function AgenciasPage() {
 
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Buscador */}
-      <div className="bg-white shadow-sm border-b">
+      <section className="bg-white shadow-sm border-b" aria-label="Búsqueda de agencias">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="max-w-md mx-auto">
+            <h2 className="sr-only">Buscar agencias Shalom</h2>
             <div className="relative">
               <input
                 type="text"
@@ -202,7 +206,12 @@ export default function AgenciasPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full px-4 py-2 pl-10 pr-4 border border-gray-300 rounded-lg text-black"
+                aria-label="Buscar agencias Shalom por zona, nombre o dirección"
+                aria-describedby="search-description"
               />
+              <div id="search-description" className="sr-only">
+                Busca entre {agencias.length} agencias Shalom disponibles
+              </div>
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
               </div>
@@ -217,10 +226,11 @@ export default function AgenciasPage() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Grid de agencias */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" role="main">
+        <h2 className="sr-only">Listado de agencias Shalom</h2>
         {filteredAgencias.length === 0 && searchTerm ? (
           <div className="text-center py-12">
             <MagnifyingGlassIcon className="mx-auto h-12 w-12 text-gray-400" />
@@ -338,16 +348,27 @@ export default function AgenciasPage() {
             ))}
           </div>
         )}
-      </div>
+      </main>
 
       {/* Footer */}
-      <div className="bg-white border-t mt-12">
+      <footer className="bg-white border-t mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="text-center text-sm text-gray-500">
-            Datos sincronizados automáticamente cada 24 horas desde la API de Shalom Control
+          <div className="text-center">
+            <p className="text-xs text-gray-400">
+              ShalomAPI - API gratuita para consultar agencias Shalom | Desarrollado por <a href="https://wazend.net/" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-gray-600">Wazend</a>
+            </p>
+            <div className="mt-3 flex justify-center space-x-4 text-xs text-gray-400">
+              <span>API REST</span>
+              <span>•</span>
+              <span>Tiempo Real</span>
+              <span>•</span>
+              <span>Gratuita</span>
+              <span>•</span>
+              <span>Documentación Completa</span>
+            </div>
           </div>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { Metadata } from 'next';
 import {
   CodeBracketIcon,
   DocumentTextIcon,
@@ -22,14 +23,14 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="shadow-sm border-b" style={{ backgroundColor: '#ee2a2f' }}>
+      <header className="shadow-sm border-b" style={{ backgroundColor: '#ee2a2f' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
             <div className="flex-1">
-              <h1 className="text-xl md:text-3xl font-bold text-white">Documentación - Shalom API</h1>
-              <p className="text-red-100 mt-1">
-                Guía completa de uso y funcionalidades
+              <h1 className="text-xl md:text-3xl font-bold text-white">Documentación - ShalomAPI</h1>
+              <p className="text-red-100 mt-1 text-sm md:text-base">
+                Guía completa para usar la API de agencias Shalom - Endpoints, ejemplos y mejores prácticas
               </p>
             </div>
 
@@ -44,10 +45,10 @@ export default function DocsPage() {
 
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" role="main">
         {/* Introducción */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
@@ -227,7 +228,7 @@ export default function DocsPage() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
