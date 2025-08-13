@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
-import { 
-  CodeBracketIcon, 
-  DocumentTextIcon, 
+import {
+  CodeBracketIcon,
+  DocumentTextIcon,
   ClockIcon,
   ServerIcon,
   ArrowPathIcon
@@ -22,27 +22,32 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="shadow-sm border-b" style={{backgroundColor: '#ee2a2f'}}>
+      <div className="shadow-sm border-b" style={{ backgroundColor: '#ee2a2f' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-white">Documentación - Shalom API</h1>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+
+            <div className="flex-1">
+              <h1 className="text-xl md:text-3xl font-bold text-white">Documentación - Shalom API</h1>
               <p className="text-red-100 mt-1">
                 Guía completa de uso y funcionalidades
               </p>
             </div>
-            <Link 
-              href="/"
-              className="bg-white text-red-600 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors whitespace-nowrap font-medium"
-            >
-              🏢 Ver Agencias
-            </Link>
+
+            <div className="flex items-center gap-4">
+              <Link
+                href="/"
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap"
+              >
+                🏢 Ver Agencias
+              </Link>
+            </div>
+
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Introducción */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
@@ -50,12 +55,12 @@ export default function DocsPage() {
             Introducción
           </h2>
           <p className="text-gray-700 mb-4">
-            Shalom API es una aplicación web que sincroniza y muestra información de agencias desde una API externa. 
+            Shalom API es una aplicación web que sincroniza y muestra información de agencias de Shalom.
             Proporciona una interfaz web intuitiva para visualizar las agencias y endpoints API para integración.
           </p>
           <div className="bg-red-50 border-l-4 border-red-400 p-4">
-              <p className="text-red-800">
-              <strong>Nota:</strong> La aplicación se sincroniza automáticamente cada 24 horas a las 00:00 para mantener 
+            <p className="text-red-800">
+              <strong>Nota:</strong> La aplicación se sincroniza automáticamente cada 24 horas a las 00:00 para mantener
               los datos actualizados.
             </p>
           </div>
@@ -67,7 +72,7 @@ export default function DocsPage() {
             <ServerIcon className="w-6 h-6 mr-2 text-red-600" />
             Funcionalidades Principales
           </h2>
-          
+
           <div className="grid gap-6 md:grid-cols-2">
             {/* Interfaz Web */}
             <div className="border border-gray-200 rounded-lg p-4">
@@ -93,9 +98,9 @@ export default function DocsPage() {
                 Endpoint que devuelve la lista completa de agencias en formato JSON.
               </p>
               <div className="mt-2">
-                <a 
-                  href="/api/listar" 
-                  target="_blank" 
+                <a
+                  href="/api/listar"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-purple-600 hover:text-purple-800 underline text-sm"
                 >
@@ -114,17 +119,17 @@ export default function DocsPage() {
               <div className="mt-2 space-y-1">
                 <p className="text-sm text-gray-500">Ejemplos:</p>
                 <div className="space-y-1">
-                  <a 
-                    href="/api/buscar?q=lima" 
-                    target="_blank" 
+                  <a
+                    href="/api/buscar?q=lima"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="block text-blue-600 hover:text-blue-800 underline text-sm font-mono"
                   >
                     /api/buscar?q=lima
                   </a>
-                  <a 
-                    href="/api/buscar?q=centro" 
-                    target="_blank" 
+                  <a
+                    href="/api/buscar?q=centro"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="block text-blue-600 hover:text-blue-800 underline text-sm font-mono"
                   >
@@ -170,7 +175,7 @@ export default function DocsPage() {
             <CodeBracketIcon className="w-6 h-6 mr-2 text-red-600" />
             Estructura de Datos
           </h2>
-          
+
           {/* Estructura de Agencia */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">📋 Estructura de Agencia</h3>
@@ -179,7 +184,7 @@ export default function DocsPage() {
             </p>
             <div className="bg-gray-50 rounded-lg p-4 overflow-x-auto">
               <pre className="text-sm text-gray-800">
-{`{
+                {`{
   "ter_id": "string",           // ID único de la agencia
   "lugar_over": "string",      // Nombre principal de la agencia
   "direccion": "string",       // Dirección completa
@@ -204,7 +209,7 @@ export default function DocsPage() {
             </p>
             <div className="bg-gray-50 rounded-lg p-4 overflow-x-auto">
               <pre className="text-sm text-gray-800">
-{`{
+                {`{
   "query": "string",           // Término de búsqueda utilizado
   "total": number,             // Número total de resultados
   "resultados": [              // Array de agencias encontradas
@@ -219,36 +224,6 @@ export default function DocsPage() {
               <p className="text-blue-800 text-sm">
                 <strong>Nota:</strong> La búsqueda es case-insensitive y busca en todos los campos de texto de la agencia.
               </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Características Técnicas */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-            <ArrowPathIcon className="w-6 h-6 mr-2 text-red-600" />
-            Características Técnicas
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Frontend</h3>
-              <ul className="list-disc list-inside text-gray-600 space-y-1">
-                <li>Next.js 14 con App Router</li>
-                <li>React 18 con Hooks</li>
-                <li>Tailwind CSS para estilos</li>
-                <li>Heroicons para iconografía</li>
-                <li>Diseño responsive</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Backend</h3>
-              <ul className="list-disc list-inside text-gray-600 space-y-1">
-                <li>API Routes de Next.js</li>
-                <li>Sincronización automática con cron jobs</li>
-                <li>Almacenamiento en archivo JSON</li>
-                <li>Integración con API externa</li>
-                <li>Manejo de errores robusto</li>
-              </ul>
             </div>
           </div>
         </div>
