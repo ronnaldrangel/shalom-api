@@ -1,4 +1,4 @@
-import cron from 'node-cron';
+import * as cron from 'node-cron';
 import { AgenciasService } from './agencias-service';
 
 export class CronJobManager {
@@ -19,7 +19,6 @@ export class CronJobManager {
     this.job = cron.schedule('0 0 * * *', () => {
       this.executeJob();
     }, {
-      scheduled: true,
       timezone: 'America/Mexico_City' // Ajusta según tu zona horaria
     });
 

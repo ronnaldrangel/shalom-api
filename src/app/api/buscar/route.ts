@@ -1,6 +1,16 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+
+interface Agencia {
+  lugar_over?: string;
+  nombre?: string;
+  direccion?: string;
+  telefono?: string;
+  hora_atencion?: string;
+  hora_domingo?: string;
+  ter_habilitado_OS?: number;
+}
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'agencias.json');
 
@@ -32,7 +42,7 @@ export async function GET(request: Request) {
 
     // Filtrar agencias basado en el término de búsqueda
     const queryLower = query.toLowerCase();
-    const resultados = agencias.filter((agencia: any) => {
+    const resultados = agencias.filter((agencia: Agencia) => {
       // Filtrar agencias que tengan ter_habilitado_OS = 0
       if (agencia.ter_habilitado_OS === 0) return false;
       

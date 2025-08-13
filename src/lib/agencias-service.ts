@@ -44,7 +44,7 @@ export class AgenciasService {
     }
   }
 
-  static getStoredData(): any | null {
+  static getStoredData(): unknown | null {
     try {
       if (!fs.existsSync(DATA_FILE)) {
         return null;

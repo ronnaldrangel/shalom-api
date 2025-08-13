@@ -79,7 +79,7 @@ export default function DocsPage() {
               <ul className="list-disc list-inside text-gray-600 mt-2 space-y-1">
                 <li>Información de ubicación y contacto</li>
                 <li>Horarios de atención</li>
-                <li>Botón "Cómo llegar" integrado con Google Maps</li>
+                <li>Botón &quot;Cómo llegar&quot; integrado con Google Maps</li>
                 <li>Búsqueda en tiempo real</li>
                 <li>Diseño responsive</li>
               </ul>

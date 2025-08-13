@@ -47,7 +47,7 @@ interface Agencia {
   prov_id: number;
   dist_id: number;
   ubi_id: number;
-  origenes_aereos: any[];
+  origenes_aereos: unknown[];
   destinos_aereos: number[];
 }
 
@@ -93,13 +93,6 @@ export default function AgenciasPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const getStatusColor = (estado: string | null) => {
-    if (estado && estado.includes('ATENDIENDO')) {
-      return 'bg-green-100 text-green-800 border-green-200';
-    }
-    return 'bg-gray-100 text-gray-800 border-gray-200';
   };
 
   const filteredAgencias = agencias.filter(agencia => {
@@ -233,7 +226,7 @@ export default function AgenciasPage() {
             <MagnifyingGlassIcon className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">No se encontraron agencias</h3>
             <p className="mt-1 text-sm text-gray-500">
-              No hay agencias que coincidan con "<span className="font-medium">{searchTerm}</span>"
+              No hay agencias que coincidan con &quot;<span className="font-medium">{searchTerm}</span>&quot;
             </p>
             <button
               onClick={() => setSearchTerm('')}
