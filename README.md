@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ShalomAPI
 
-## Getting Started
+Aplicación web que sincroniza y muestra información de agencias de Shalom con endpoints API seguros para integración.
 
-First, run the development server:
+## 🚀 Características
 
+- **Interfaz web intuitiva** para visualizar agencias
+- **API REST segura** con autenticación por API key
+- **Sincronización automática** cada 24 horas
+- **Búsqueda en tiempo real** de agencias
+- **Integración con Google Maps** para direcciones
+- **Diseño responsive** para móviles y desktop
+
+## 🔐 Autenticación
+
+Todas las rutas de la API requieren autenticación mediante API key.
+
+### Configuración
+
+1. Copia el archivo de ejemplo:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Configura la variable de entorno en `.env.local`:
+```env
+# API Key unificada para toda la aplicación
+API_KEY=tu-clave-super-secreta-aqui
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> **Nota:** En desarrollo, puedes usar la clave por defecto `shalom-api-key-2024`. En producción, cambia por una clave segura. La clave se mantiene segura en el servidor y no se expone al cliente.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Uso de la API
 
-## Learn More
+**Método 1: Header x-api-key**
+```bash
+curl -H "x-api-key: $API_KEY" \
+     http://localhost:3000/api/listar
+```
 
-To learn more about Next.js, take a look at the following resources:
+**Método 2: Authorization Bearer**
+```bash
+curl -H "Authorization: Bearer $API_KEY" \
+     http://localhost:3000/api/listar
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📚 Endpoints API
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Endpoint | Método | Descripción |
+|----------|--------|-------------|
+| `/api/listar` | GET | Lista todas las agencias |
+| `/api/buscar?q=término` | GET | Busca agencias por cualquier campo |
+| `/api/agencia?q=nombre` | GET | Busca agencias solo por nombre |
+| `/api/sync` | POST | Sincronización manual de datos |
 
-## Deploy on Vercel
+## 🛠️ Instalación
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clona el repositorio:
+```bash
+git clone <repository-url>
+cd ShalomAPI
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Instala las dependencias:
+```bash
+npm install
+```
+
+3. Configura las variables de entorno:
+```bash
+cp .env.example .env
+```
+
+4. Ejecuta el servidor de desarrollo:
+```bash
+npm run dev
+```
+
+5. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+## 📖 Documentación
+
+Visita [http://localhost:3000/docs](http://localhost:3000/docs) para ver la documentación completa de la API con ejemplos interactivos.
+
+## 🔄 Sincronización
+
+- **Automática**: Cada 24 horas a las 00:00
+- **Manual**: Endpoint `/api/sync` (requiere autenticación)
+- **Al iniciar**: Primera carga automática al arrancar la aplicación
+
+## 🏗️ Tecnologías
+
+- **Next.js 15** - Framework React
+- **TypeScript** - Tipado estático
+- **Tailwind CSS** - Estilos
+- **Heroicons** - Iconografía
+- **Node.js** - Runtime
+
+## 📱 Características de la Interfaz
+
+- Búsqueda en tiempo real
+- Vista minimal y completa
+- Integración con Google Maps
+- Información de horarios y contacto
+- Descarga de tarifas en PDF
+- Diseño responsive
+
+## 🚀 Despliegue
+
+Para desplegar en producción:
+
+1. Configura las variables de entorno en tu plataforma
+2. Asegúrate de usar una API key segura
+3. Configura el dominio correcto en los metadatos
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia MIT.

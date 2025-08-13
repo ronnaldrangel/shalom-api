@@ -63,6 +63,7 @@ export default function AgenciasPage() {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [apiKey, setApiKey] = useState<string | null>(null);
   const [isMinimalMode, setIsMinimalMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('isMinimalMode');
@@ -75,10 +76,29 @@ export default function AgenciasPage() {
     fetchAgencias();
   }, []);
 
+  const getApiKey = async (): Promise<string> => {
+    if (apiKey) return apiKey;
+    
+    try {
+      const response = await fetch('/api/auth');
+      const data = await response.json();
+      setApiKey(data.apiKey);
+      return data.apiKey;
+    } catch (error) {
+      console.error('Error obteniendo API key:', error);
+      return 'shalom-api-key-2024'; // fallback
+    }
+  };
+
   const fetchAgencias = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/listar');
+      const currentApiKey = await getApiKey();
+      const response = await fetch('/api/listar', {
+        headers: {
+          'x-api-key': currentApiKey
+        }
+      });
       const data: ApiResponse = await response.json();
 
       if (data.success && data.data) {

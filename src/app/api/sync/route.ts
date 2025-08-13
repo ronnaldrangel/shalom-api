@@ -1,7 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { CronJobManager } from '@/lib/cron-job';
+import { requireApiKey } from '@/lib/auth';
 
-export async function POST() {
+export async function POST(request: NextRequest) {
+  // Validar API key
+  const authError = requireApiKey(request);
+  if (authError) {
+    return authError;
+  }
   try {
     console.log('Ejecutando sincronización manual de agencias...');
     
@@ -26,7 +32,13 @@ export async function POST() {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Validar API key
+  const authError = requireApiKey(request);
+  if (authError) {
+    return authError;
+  }
+  
   return NextResponse.json({
     message: 'Endpoint para sincronización manual de agencias',
     usage: 'Envía una petición POST para ejecutar la sincronización',

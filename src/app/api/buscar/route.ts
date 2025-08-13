@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { requireApiKey } from '@/lib/auth';
 
 interface Agencia {
   lugar_over?: string;
@@ -14,7 +15,13 @@ interface Agencia {
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'agencias.json');
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  // Validar API key
+  const authError = requireApiKey(request);
+  if (authError) {
+    return authError;
+  }
+
   try {
     // Obtener el query parameter
     const { searchParams } = new URL(request.url);

@@ -1,20 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { requireApiKey } from '@/lib/auth';
 
 interface Agencia {
-  lugar_over?: string;
-  nombre?: string;
-  direccion?: string;
-  telefono?: string;
-  hora_atencion?: string;
+  ter_id: string;
+  nombre: string;
+  lugar_over: string;
+  direccion: string;
+  provincia: string;
+  departamento: string;
+  telefono: string;
+  hora_atencion: string;
   hora_domingo?: string;
-  ter_habilitado_OS?: number;
+  latitud: string;
+  longitud: string;
+  ter_habilitado_OS: number;
 }
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'agencias.json');
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  // Validar API key
+  const authError = requireApiKey(request);
+  if (authError) {
+    return authError;
+  }
   try {
     // Obtener el query parameter
     const { searchParams } = new URL(request.url);

@@ -1,10 +1,16 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { requireApiKey } from '@/lib/auth';
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'agencias.json');
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Validar API key
+  const authError = requireApiKey(request);
+  if (authError) {
+    return authError;
+  }
   try {
     // Verificar si el archivo existe
     if (!fs.existsSync(DATA_FILE)) {

@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import { useState } from 'react';
 import {
   CodeBracketIcon,
   DocumentTextIcon,
@@ -10,9 +11,31 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function DocsPage() {
+  const [apiKey, setApiKey] = useState<string | null>(null);
+
+  const getApiKey = async (): Promise<string> => {
+    if (apiKey) return apiKey;
+    
+    try {
+      const response = await fetch('/api/auth');
+      const data = await response.json();
+      setApiKey(data.apiKey);
+      return data.apiKey;
+    } catch (error) {
+      console.error('Error obteniendo API key:', error);
+      return 'shalom-api-key-2024'; // fallback
+    }
+  };
+
   const handleSync = async () => {
     try {
-      const response = await fetch('/api/sync', { method: 'POST' });
+      const currentApiKey = await getApiKey();
+      const response = await fetch('/api/sync', { 
+        method: 'POST',
+        headers: {
+          'x-api-key': currentApiKey
+        }
+      });
       const data = await response.json();
       alert(data.message || 'Sincronización completada');
     } catch (error) {
@@ -63,6 +86,70 @@ export default function DocsPage() {
             <p className="text-red-800">
               <strong>Nota:</strong> La aplicación se sincroniza automáticamente cada 24 horas a las 00:00 para mantener
               los datos actualizados.
+            </p>
+          </div>
+        </div>
+
+        {/* Autenticación */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+            <CodeBracketIcon className="w-6 h-6 mr-2 text-red-600" />
+            Autenticación
+          </h2>
+          <p className="text-gray-700 mb-4">
+            Todas las rutas de la API requieren autenticación mediante API key para garantizar la seguridad.
+          </p>
+          
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+            <p className="text-yellow-800">
+              <strong>API Key:</strong> <code>[************]</code>
+              <button
+                onClick={() => {
+                  const message = encodeURIComponent(
+                    "Hola, me gustaría solicitar acceso al API key de ShalomAPI. Gracias!"
+                  );
+                  window.open(`https://wa.me/51924079147?text=${message}`, '_blank');
+                }}
+                className="ml-2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded transition-colors"
+              >
+                Solicitar Acceso
+              </button>
+            </p>
+          </div>
+
+          {/* <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+            <p className="text-blue-800">
+              <strong>Configuración:</strong> La API key se configura mediante una sola variable de entorno:
+            </p>
+            <ul className="list-disc list-inside text-blue-700 mt-2 space-y-1">
+              <li><code className="bg-blue-100 px-2 py-1 rounded">API_KEY</code> - Clave unificada para toda la aplicación</li>
+              <li>Se mantiene segura en el servidor y no se expone al cliente</li>
+            </ul>
+          </div> */}
+
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Métodos de autenticación</h3>
+          
+          <div className="space-y-4">
+            <div className="border border-gray-200 rounded-lg p-4 text-black">
+              <h4 className="font-semibold text-gray-900 mb-2">1. Header x-api-key</h4>
+              <pre className="bg-gray-100 p-3 rounded text-sm overflow-x-auto">
+                <code>{`curl -H "x-api-key: $API_KEY" \
+   https://shalom-api.wazend.net/api/listar`}</code>
+              </pre>
+            </div>
+            
+            <div className="border border-gray-200 rounded-lg p-4 text-black">
+              <h4 className="font-semibold text-gray-900 mb-2">2. Authorization Bearer</h4>
+              <pre className="bg-gray-100 p-3 rounded text-sm overflow-x-auto">
+                <code>{`curl -H "Authorization: Bearer $API_KEY" \
+https://shalom-api.wazend.net/api/listar`}</code>
+              </pre>
+            </div>
+          </div>
+
+          <div className="bg-red-50 border-l-4 border-red-400 p-4 mt-4">
+            <p className="text-red-800">
+              <strong>Error 401:</strong> Si no incluyes la API key o es incorrecta, recibirás un error de autenticación.
             </p>
           </div>
         </div>
