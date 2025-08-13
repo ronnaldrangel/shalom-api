@@ -44,10 +44,10 @@ function generateCompactPNG(agencias: Agencia[], query: string): string {
     <svg width="${width}" height="${totalHeight}" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <style>
-          .header { font-family: 'Segoe UI', Arial, sans-serif; font-size: 22px; font-weight: bold; fill: white; }
-          .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #fee2e2; }
-          .agency-name { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #1f2937; }
-          .agency-address { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #6b7280; }
+          .header { font-family: Arial, 'Liberation Sans', 'DejaVu Sans', Helvetica, sans-serif; font-size: 18px; font-weight: bold; fill: white; }
+          .subtitle { font-family: Arial, 'Liberation Sans', 'DejaVu Sans', Helvetica, sans-serif; font-size: 12px; fill: white; opacity: 0.9; }
+          .agency-name { font-family: Arial, 'Liberation Sans', 'DejaVu Sans', Helvetica, sans-serif; font-size: 13px; font-weight: 600; fill: #1f2937; }
+          .agency-address { font-family: Arial, 'Liberation Sans', 'DejaVu Sans', Helvetica, sans-serif; font-size: 11px; fill: #6b7280; }
           .bg-red { fill: #dc2626; }
           .bg-white { fill: white; }
           .bg-gray { fill: #f8fafc; }
