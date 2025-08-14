@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  shalom-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: shalom-api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - FONTCONFIG_PATH=/etc/fonts
+      - API_KEY=${API_KEY:-shalom-api-key-20242}
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      # Opcional: montar datos externos si es necesario
+      # - ./data:/app/data:ro
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/front"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - shalom-network
+    # Límites de recursos para EasyPanel
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+networks:
+  shalom-network:
+    driver: bridge
