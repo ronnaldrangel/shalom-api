@@ -40,14 +40,35 @@ function generateCompactPNG(agencias: Agencia[], query: string): string {
     return capitalized.length > maxLength ? capitalized.substring(0, maxLength) + '...' : capitalized;
   };
 
+  // Función para escapar caracteres especiales en XML/SVG
+  const escapeXml = (text: string): string => {
+    return text
+      // Normalizar acentos y caracteres especiales
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remover diacríticos
+      // Reemplazar caracteres especiales comunes
+      .replace(/ñ/g, 'n')
+      .replace(/Ñ/g, 'N')
+      .replace(/ü/g, 'u')
+      .replace(/Ü/g, 'U')
+      // Escapar XML
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      // Mantener solo caracteres ASCII imprimibles
+      .replace(/[^\x20-\x7E]/g, '');
+  };
+
   let svg = `
     <svg width="${width}" height="${totalHeight}" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <style>
-          .header { font-family: Arial, 'Liberation Sans', 'DejaVu Sans', Helvetica, sans-serif; font-size: 18px; font-weight: bold; fill: white; }
-          .subtitle { font-family: Arial, 'Liberation Sans', 'DejaVu Sans', Helvetica, sans-serif; font-size: 12px; fill: white; opacity: 0.9; }
-          .agency-name { font-family: Arial, 'Liberation Sans', 'DejaVu Sans', Helvetica, sans-serif; font-size: 13px; font-weight: 600; fill: #1f2937; }
-          .agency-address { font-family: Arial, 'Liberation Sans', 'DejaVu Sans', Helvetica, sans-serif; font-size: 11px; fill: #6b7280; }
+          .header { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: white; }
+          .subtitle { font-family: Arial, sans-serif; font-size: 12px; fill: white; opacity: 0.9; }
+          .agency-name { font-family: Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #1f2937; }
+          .agency-address { font-family: Arial, sans-serif; font-size: 11px; fill: #6b7280; }
           .bg-red { fill: #dc2626; }
           .bg-white { fill: white; }
           .bg-gray { fill: #f8fafc; }
@@ -67,7 +88,7 @@ function generateCompactPNG(agencias: Agencia[], query: string): string {
       
       <!-- Header Content -->
       <text x="${padding}" y="35" class="header">Shalom - Agencias</text>
-      <text x="${padding}" y="58" class="subtitle">Búsqueda: "${query}" - ${agencias.length} resultado(s)</text>
+      <text x="${padding}" y="58" class="subtitle">Búsqueda: "${escapeXml(query)}" - ${agencias.length} resultado(s)</text>
       
       <!-- Background for content -->
       <rect x="0" y="${headerHeight}" width="${width}" height="${contentHeight}" class="bg-gray"/>
@@ -79,8 +100,8 @@ function generateCompactPNG(agencias: Agencia[], query: string): string {
     const x = padding + col * (itemWidth + padding);
     const y = headerHeight + padding + row * (itemHeight + 15);
 
-    const nombre = agencia.lugar_over || agencia.nombre || 'Sin nombre';
-    const direccion = truncateAndCapitalize(agencia.direccion || 'Sin dirección', 45);
+    const nombre = escapeXml(agencia.lugar_over || agencia.nombre || 'Sin nombre');
+    const direccion = escapeXml(truncateAndCapitalize(agencia.direccion || 'Sin dirección', 45));
 
     svg += `
       <rect x="${x}" y="${y}" width="${itemWidth}" height="${itemHeight}" rx="8" class="bg-white shadow"/>
