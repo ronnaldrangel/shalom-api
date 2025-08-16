@@ -53,22 +53,13 @@ FROM base AS runner
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copiar package.json y package-lock.json primero
-COPY --from=builder --chown=nextjs:nodejs /app/package*.json ./
-
-# Instalar solo dependencias de producción
-RUN npm ci --only=production && npm cache clean --force
-
-# Copiar esquema de Prisma
-COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
-
-# Generar cliente de Prisma en el stage final
-RUN npx prisma generate
-
-# Copiar archivos construidos
+# Copiar archivos necesarios (incluyendo cliente de Prisma generado)
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
 # Crear directorio para la base de datos y hacer ejecutable el script
 RUN mkdir -p /app/prisma && \
@@ -96,4 +87,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3000/api/front || exit 1
 
 # Comando para iniciar la aplicación
-ENTRYPOINT ["/bin/sh", "-c", "npx prisma migrate deploy && npx prisma db seed && npm start"]
+ENTRYPOINT ["/bin/sh", "-c", "npx prisma generate && npx prisma migrate deploy && npx prisma generate && npx prisma db seed && npm start"]
