@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireApiKey } from '@/lib/auth';
+import { authMiddleware } from '@/lib/auth';
+import { connectDatabase } from '@/lib/database';
 import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
@@ -124,13 +125,29 @@ function generateCompactPNG(agencias: Agencia[], query: string): string {
   return svg;
 }
 
+// Conectar a la base de datos al inicializar
+connectDatabase();
+
 export async function GET(request: NextRequest) {
   try {
-    // Validar API key
-  const authError = requireApiKey(request);
-  if (authError) {
-    return authError;
-  }
+    // Validar API key y verificar rate limit
+    const authResult = await authMiddleware(request, '/api/image');
+    
+    if (!authResult.success) {
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Agregar headers de rate limit si están disponibles
+      if (authResult.rateLimitHeaders) {
+        Object.assign(headers, authResult.rateLimitHeaders);
+      }
+      
+      return NextResponse.json(
+        { error: authResult.error },
+        { status: authResult.status || 401, headers }
+      );
+    }
 
     // Obtener parámetro de búsqueda
     const { searchParams } = new URL(request.url);
@@ -163,14 +180,22 @@ export async function GET(request: NextRequest) {
       .png()
       .toBuffer();
 
+    // Preparar headers de respuesta
+    const responseHeaders: Record<string, string> = {
+      'Content-Type': 'image/png',
+      'Cache-Control': 'public, max-age=1800', // Cache por 30 minutos
+      'Access-Control-Allow-Origin': '*',
+    };
+    
+    // Agregar headers de rate limit
+    if (authResult.rateLimitHeaders) {
+      Object.assign(responseHeaders, authResult.rateLimitHeaders);
+    }
+
     // Retornar PNG con headers apropiados
     return new NextResponse(new Uint8Array(pngBuffer), {
       status: 200,
-      headers: {
-        'Content-Type': 'image/png',
-        'Cache-Control': 'public, max-age=1800', // Cache por 30 minutos
-        'Access-Control-Allow-Origin': '*',
-      },
+      headers: responseHeaders,
     });
 
   } catch (error) {

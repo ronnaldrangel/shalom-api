@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { requireApiKey } from '@/lib/auth';
+import { authMiddleware } from '@/lib/auth';
 
 interface Agencia {
   lugar_over?: string;
@@ -16,10 +16,23 @@ interface Agencia {
 const DATA_FILE = path.join(process.cwd(), 'data', 'agencias.json');
 
 export async function GET(request: NextRequest) {
-  // Validar API key
-  const authError = requireApiKey(request);
-  if (authError) {
-    return authError;
+  // Validar API key y verificar rate limit
+  const authResult = await authMiddleware(request, '/api/buscar');
+  
+  if (!authResult.success) {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    // Agregar headers de rate limit si están disponibles
+    if (authResult.rateLimitHeaders) {
+      Object.assign(headers, authResult.rateLimitHeaders);
+    }
+    
+    return NextResponse.json(
+      { error: authResult.error },
+      { status: authResult.status || 401, headers }
+    );
   }
 
   try {

@@ -51,7 +51,6 @@ curl -H "Authorization: Bearer $API_KEY" \
 | `/api/listar` | GET | Lista todas las agencias |
 | `/api/buscar?q=término` | GET | Busca agencias por cualquier campo |
 | `/api/agencia?q=nombre` | GET | Busca agencias solo por nombre |
-| `/api/sync` | POST | Sincronización manual de datos |
 
 ## 🛠️ Instalación
 

@@ -1,15 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { requireApiKey } from '@/lib/auth';
+import { validateApiKey, validateApiKeyLegacyString } from '@/lib/auth';
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'agencias.json');
 
 export async function GET(request: NextRequest) {
   // Validar API key
-  const authError = requireApiKey(request);
-  if (authError) {
-    return authError;
+  const apiKey = request.headers.get('x-api-key');
+  
+  // Primero intentar validación legacy (API key maestra)
+  const isLegacyValid = validateApiKeyLegacyString(apiKey);
+  
+  if (!isLegacyValid) {
+    // Si no es la API key maestra, validar con base de datos
+    const authResult = await validateApiKey(apiKey);
+    
+    if (!authResult.isValid) {
+      return NextResponse.json(
+        { error: authResult.error || 'API key inválida' },
+        { status: 401 }
+      );
+    }
   }
   try {
     // Verificar si el archivo existe

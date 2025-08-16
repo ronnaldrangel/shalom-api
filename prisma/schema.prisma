@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  monthlyLimit Int      @default(5000) // Límite mensual de consultas por usuario
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  // Relaciones
+  apiKeys      ApiKey[]
+  usage        Usage[]
+  
+  @@map("users")
+}
+
+model ApiKey {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  name        String   // Nombre descriptivo de la API key
+  userId      String
+  isActive    Boolean  @default(true)
+  monthlyLimit Int     @default(1000) // Límite mensual de consultas
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relaciones
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  usage       Usage[]
+  
+  @@map("api_keys")
+}
+
+model Usage {
+  id        String   @id @default(cuid())
+  userId    String
+  apiKeyId  String
+  endpoint  String   // Endpoint utilizado (/api/image, /api/front, etc.)
+  month     Int      // Mes (1-12)
+  year      Int      // Año
+  count     Int      @default(0) // Número de consultas en ese mes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relaciones
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKey    ApiKey   @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+  
+  // Índice único para evitar duplicados por usuario/apikey/endpoint/mes/año
+  @@unique([userId, apiKeyId, endpoint, month, year])
+  @@map("usage")
+}
