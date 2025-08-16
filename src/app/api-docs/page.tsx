@@ -34,7 +34,7 @@ export default function ApiDocsPage() {
 
             {/* Rutas API */}
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-6">📋 Rutas API</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-6">📋 Rutas API.</h2>
 
 
 
