@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   try {
     // Validar API key master
     const apiKey = request.headers.get('x-api-key') || 
-                  request.headers.get('authorization')?.replace('Bearer ', '');
+                  request.headers.get('authorization')?.replace('Bearer ', '') || null;
     
     if (!validateApiKeyLegacyString(apiKey)) {
       return NextResponse.json(
@@ -83,7 +83,7 @@ export async function PATCH(request: NextRequest) {
   try {
     // Validar API key master
     const adminApiKey = request.headers.get('x-api-key') || 
-                       request.headers.get('authorization')?.replace('Bearer ', '');
+                       request.headers.get('authorization')?.replace('Bearer ', '') || null;
     
     if (!validateApiKeyLegacyString(adminApiKey)) {
       return NextResponse.json(
@@ -237,7 +237,7 @@ export async function GET(request: NextRequest) {
   try {
     // Validar API key master
     const apiKey = request.headers.get('x-api-key') || 
-                  request.headers.get('authorization')?.replace('Bearer ', '');
+                  request.headers.get('authorization')?.replace('Bearer ', '') || null;
     
     if (!validateApiKeyLegacyString(apiKey)) {
       return NextResponse.json(
@@ -301,7 +301,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Buscar usuario por ID o email
-    const whereClause = userId ? { id: userId } : { email: email };
+    const whereClause = userId ? { id: userId } : { email: email as string };
     const user = await prisma.user.findUnique({
       where: whereClause,
       include: { apiKeys: true }

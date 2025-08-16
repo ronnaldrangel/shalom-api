@@ -103,7 +103,7 @@ export async function recordUsage(
 // Función requireApiKey que soporta API key master
 export function requireApiKey(request: NextRequest) {
   const apiKey = request.headers.get('x-api-key') || 
-                request.headers.get('authorization')?.replace('Bearer ', '');
+                request.headers.get('authorization')?.replace('Bearer ', '') || null;
   
   // Primero verificar si es la API key master
   if (validateApiKeyLegacyString(apiKey)) {
@@ -119,7 +119,7 @@ export function requireApiKey(request: NextRequest) {
 
 // Función legacy para compatibilidad (mantener por ahora)
 export function validateApiKeyLegacy(request: NextRequest): boolean {
-  const apiKey = request.headers.get('x-api-key') || request.headers.get('authorization')?.replace('Bearer ', '');
+  const apiKey = request.headers.get('x-api-key') || request.headers.get('authorization')?.replace('Bearer ', '') || null;
   return validateApiKeyLegacyString(apiKey);
 }
 
@@ -144,7 +144,7 @@ export async function authMiddleware(
 }> {
   // Extraer API key de los headers
   const apiKeyHeader = request.headers.get('x-api-key') || 
-                      request.headers.get('authorization')?.replace('Bearer ', '');
+                      request.headers.get('authorization')?.replace('Bearer ', '') || null;
 
   if (!apiKeyHeader) {
     return {
