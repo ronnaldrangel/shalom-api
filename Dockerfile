@@ -38,11 +38,9 @@ RUN npx prisma generate
 COPY src ./src
 COPY public ./public
 COPY next.config.ts ./
-COPY tsconfig.json ./
-COPY postcss.config.mjs ./
-COPY tailwind.config.ts ./
-COPY data ./data
-COPY scripts ./scripts
+    COPY tsconfig.json ./
+    COPY postcss.config.mjs ./
+    COPY scripts ./scripts
 
 RUN npm run build
 
