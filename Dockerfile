@@ -63,10 +63,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
 # Crear directorio para la base de datos y hacer ejecutable el script
 RUN mkdir -p /app/prisma && \
-    chmod +x /app/scripts/init-db.sh
-
-# Hacer ejecutable el script de inicialización
-RUN chmod +x /app/scripts/init-db.sh
+    chmod +x /app/scripts/init-db.sh && \
+    chown -R nextjs:nodejs /app
 
 # Copiar archivo de entorno al contenedor final
 COPY --from=builder --chown=nextjs:nodejs /app/.env ./.env
