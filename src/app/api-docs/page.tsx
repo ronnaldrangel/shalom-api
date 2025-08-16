@@ -36,40 +36,7 @@ export default function ApiDocsPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-800 mb-6">📋 Rutas API</h2>
 
-              {/* /api/agencias-server */}
-              <div className="border border-gray-200 rounded-lg mb-6">
-                <div className="bg-gray-50 px-4 py-3 border-b">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm mr-2">GET</span>
-                    /api/agencias-server
-                  </h3>
-                </div>
-                <div className="p-4">
-                  <p className="text-gray-900 mb-3">Obtiene todas las agencias directamente desde el servidor (sin autenticación).</p>
-                  <div className="bg-gray-100 p-3 rounded">
-                    <h4 className="font-semibold mb-2">Ejemplo de respuesta:</h4>
-                    <pre className="text-sm overflow-x-auto">
-{`{
-  "data": [
-    {
-      "ter_id": "001",
-      "nombre": "Agencia Central",
-      "lugar_over": "Centro",
-      "direccion": "Av. Principal 123",
-      "provincia": "Buenos Aires",
-      "departamento": "Capital",
-      "telefono": "011-1234-5678",
-      "hora_atencion": "08:00-17:00",
-      "latitud": "-34.6037",
-      "longitud": "-58.3816",
-      "ter_habilitado_OS": 1
-    }
-  ]
-}`}
-                    </pre>
-                  </div>
-                </div>
-              </div>
+
 
               {/* /api/listar */}
               <div className="border border-gray-200 rounded-lg mb-6">
