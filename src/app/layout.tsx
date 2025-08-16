@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     images: ["/cover.png"]
   },
   alternates: {
-    canonical: "https://shalom-api.wazend.net"
+    canonical: "https://shalom-api.live"
   },
   icons: {
     icon: "/favicon.ico",
@@ -78,7 +78,7 @@ export default function RootLayout({
     "@type": "WebApplication",
     "name": "Shalom API - API Oficial de Agencias Shalom",
     "description": "Shalom API oficial para consultar todas las agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de agencias Shalom. API gratuita para desarrolladores.",
-    "url": "https://shalom-api.wazend.net",
+    "url": "https://shalom-api.live",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Web",
     "offers": {

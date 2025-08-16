@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://shalom-api.wazend.net/sitemap.xml
+Sitemap: https://shalom-api.live/sitemap.xml
 
 # Permitir indexación de API endpoints
 Allow: /api/listar
