@@ -32,6 +32,11 @@ RUN npm ci
 
 # Copiar esquema de Prisma y generar cliente
 COPY prisma ./prisma/
+
+# Variables de entorno necesarias para el build
+ENV DATABASE_URL="postgres://postgres:84b98543c80833c5b28f@vps-2.rangel.pro:8888/labs?sslmode=disable"
+ENV API_KEY="shalom-api-key-2024"
+
 RUN npx prisma generate
 
 # Copiar código fuente
@@ -86,8 +91,6 @@ ENV FONTCONFIG_PATH=/etc/fonts
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-ENV DATABASE_URL="postgres://postgres:84b98543c80833c5b28f@vps-2.rangel.pro:8888/labs?sslmode=disable"
-ENV API_KEY="shalom-api-key-2024"
 
 # Cambiar a usuario no-root
 USER nextjs
