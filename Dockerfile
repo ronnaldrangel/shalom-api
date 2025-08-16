@@ -53,8 +53,8 @@ FROM base AS runner
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copiar archivos necesarios
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
+# Copiar archivos necesarios (incluyendo cliente de Prisma generado)
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
@@ -87,4 +87,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3000/api/front || exit 1
 
 # Comando para iniciar la aplicación
-CMD ["sh", "-c", "echo '🚀 Iniciando aplicación Shalom API...' && npx prisma generate && echo '📦 Ejecutando migraciones...' && npx prisma migrate deploy && echo '🔧 Inicializando datos...' && node scripts/create-user.js admin@shalom.com 'Administrador' && echo '🌟 Iniciando servidor...' && npm start"]
+CMD ["sh", "-c", "echo '🚀 Iniciando aplicación Shalom API...' && echo '📦 Ejecutando migraciones...' && npx prisma migrate deploy && echo '🔧 Inicializando datos...' && node scripts/create-user.js admin@shalom.com 'Administrador' && echo '🌟 Iniciando servidor...' && npm start"]
