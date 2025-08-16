@@ -30,12 +30,9 @@ FROM base AS builder
 COPY package*.json ./
 RUN npm ci
 
-# Copiar esquema de Prisma y generar cliente
+# Copiar esquema de Prisma y archivo de entorno
 COPY prisma ./prisma/
-
-# Variables de entorno necesarias para el build
-ENV DATABASE_URL="postgres://postgres:84b98543c80833c5b28f@vps-2.rangel.pro:8888/labs?sslmode=disable"
-ENV API_KEY="shalom-api-key-2024"
+COPY .env.example ./.env
 
 RUN npx prisma generate
 
@@ -68,22 +65,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 RUN mkdir -p /app/prisma && \
     chmod +x /app/scripts/init-db.sh
 
-# Crear script de inicio que inicializa la DB y luego inicia la app
-RUN echo '#!/bin/bash\n\
-echo "🚀 Iniciando aplicación Shalom API..."\n\
-# Generar cliente de Prisma\n\
-echo "⚙️ Generando cliente de Prisma..."\n\
-npx prisma generate\n\
-# Ejecutar migraciones de Prisma\n\
-echo "📦 Ejecutando migraciones..."\n\
-npx prisma migrate deploy\n\
-# Inicializar datos si es necesario\n\
-echo "🔧 Inicializando datos..."\n\
-./scripts/init-db.sh\n\
-# Iniciar la aplicación\n\
-echo "🌟 Iniciando servidor..."\n\
-npm start' > /app/start.sh && \
-    chmod +x /app/start.sh
+# Hacer ejecutable el script de inicialización
+RUN chmod +x /app/scripts/init-db.sh
+
+# Copiar archivo de entorno al contenedor final
+COPY --from=builder --chown=nextjs:nodejs /app/.env ./.env
 
 # Variables de entorno para producción
 ENV NODE_ENV=production
@@ -103,4 +89,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3000/api/front || exit 1
 
 # Comando para iniciar la aplicación
-CMD ["/app/start.sh"]
+CMD ["sh", "-c", "echo '🚀 Iniciando aplicación Shalom API...' && npx prisma generate && echo '📦 Ejecutando migraciones...' && npx prisma migrate deploy && echo '🔧 Inicializando datos...' && ./scripts/init-db.sh && echo '🌟 Iniciando servidor...' && npm start"]
