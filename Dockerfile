@@ -87,4 +87,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3000/api/front || exit 1
 
 # Comando para iniciar la aplicación
-CMD ["sh", "-c", "echo '🚀 Iniciando aplicación Shalom API...' && echo '⚙️ Generando cliente Prisma...' && npx prisma generate && echo '📦 Ejecutando migraciones...' && npx prisma migrate deploy && echo '🔧 Inicializando datos...' && node -e 'const { PrismaClient } = require(\"@prisma/client\"); const prisma = new PrismaClient(); prisma.user.findUnique({where: {email: \"admin@shalom.com\"}}).then(user => { if (!user) { return prisma.user.create({data: {email: \"admin@shalom.com\", name: \"Administrador\", role: \"ADMIN\"}}); } }).then(() => console.log(\"✅ Usuario admin verificado/creado\")).catch(console.error).finally(() => prisma.$disconnect());' && echo '🌟 Iniciando servidor...' && npm start"]
+ENTRYPOINT ["/bin/sh", "-c", "npx prisma generate && npx prisma migrate deploy && npx prisma db seed && npm start"]
