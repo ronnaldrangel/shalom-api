@@ -87,4 +87,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3000/api/front || exit 1
 
 # Comando para iniciar la aplicación
-CMD ["sh", "-c", "echo '🚀 Iniciando aplicación Shalom API...' && echo '📦 Ejecutando migraciones...' && npx prisma migrate deploy && echo '🔧 Inicializando datos...' && node scripts/create-user.js admin@shalom.com 'Administrador' && echo '🌟 Iniciando servidor...' && npm start"]
+CMD ["sh", "-c", "echo '🚀 Iniciando aplicación Shalom API...' && echo '⚙️ Generando cliente Prisma...' && npx prisma generate && echo '📦 Ejecutando migraciones...' && npx prisma migrate deploy && echo '🔧 Inicializando datos...' && node scripts/create-user.js admin@shalom.com 'Administrador' && echo '🌟 Iniciando servidor...' && npm start"]
