@@ -84,7 +84,7 @@ EXPOSE 3000
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:3000/api/front || exit 1
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
 
 # Comando para iniciar la aplicación
 ENTRYPOINT ["/bin/sh", "-c", "npx prisma generate && npx prisma migrate deploy && npx prisma generate && npx prisma db seed && npm start"]
