@@ -38,9 +38,10 @@ RUN npx prisma generate
 COPY src ./src
 COPY public ./public
 COPY next.config.ts ./
-    COPY tsconfig.json ./
-    COPY postcss.config.mjs ./
-    COPY scripts ./scripts
+COPY tsconfig.json ./
+COPY postcss.config.mjs ./
+COPY scripts ./scripts
+COPY .env ./
 
 RUN npm run build
 
@@ -56,8 +57,9 @@ COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
-COPY --from=builder --chown=nextjs:nodejs /app/data ./data
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+COPY --from=builder --chown=nextjs:nodejs /app/.env ./.env
+COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
 # Crear directorio para la base de datos y hacer ejecutable el script
 RUN mkdir -p /app/prisma && \
@@ -66,6 +68,9 @@ RUN mkdir -p /app/prisma && \
 # Crear script de inicio que inicializa la DB y luego inicia la app
 RUN echo '#!/bin/bash\n\
 echo "🚀 Iniciando aplicación Shalom API..."\n\
+# Generar cliente de Prisma\n\
+echo "⚙️ Generando cliente de Prisma..."\n\
+npx prisma generate\n\
 # Ejecutar migraciones de Prisma\n\
 echo "📦 Ejecutando migraciones..."\n\
 npx prisma migrate deploy\n\
@@ -83,6 +88,8 @@ ENV FONTCONFIG_PATH=/etc/fonts
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+ENV DATABASE_URL="postgres://postgres:84b98543c80833c5b28f@vps-2.rangel.pro:8888/labs?sslmode=disable"
+ENV API_KEY="shalom-api-key-2024"
 
 # Cambiar a usuario no-root
 USER nextjs
