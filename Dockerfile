@@ -69,7 +69,7 @@ RUN mkdir -p /app/prisma && \
 RUN echo '#!/bin/bash\n\
 echo "🚀 Iniciando aplicación Shalom API..."\n\
 # Generar cliente de Prisma\n\
-echo "⚙️ Generando cliente de Prisma..."\n\
+echo "⚙️ Generando cliente de Prisma2..."\n\
 npx prisma generate\n\
 # Ejecutar migraciones de Prisma\n\
 echo "📦 Ejecutando migraciones..."\n\
