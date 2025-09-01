@@ -117,7 +117,7 @@ export default function DocsPage() {
               <h4 className="font-semibold text-gray-900 mb-2">1. Header x-api-key</h4>
               <pre className="bg-gray-100 p-3 rounded text-sm overflow-x-auto">
                 <code>{`curl -H "x-api-key: $API_KEY" \
-   https://shalom-api.wazend.net/api/listar`}</code>
+   https://shalom-api.live/api/listar`}</code>
               </pre>
             </div>
             
@@ -125,7 +125,7 @@ export default function DocsPage() {
               <h4 className="font-semibold text-gray-900 mb-2">2. Authorization Bearer</h4>
               <pre className="bg-gray-100 p-3 rounded text-sm overflow-x-auto">
                 <code>{`curl -H "Authorization: Bearer $API_KEY" \
-https://shalom-api.wazend.net/api/listar`}</code>
+https://shalom-api.live/api/listar`}</code>
               </pre>
             </div>
           </div>
@@ -268,25 +268,16 @@ https://shalom-api.wazend.net/api/listar`}</code>
                   </a>
                 </div>
               </div>
-              <div className="mt-3 p-3 bg-purple-50 border border-purple-200 rounded">
-                <p className="text-purple-800 text-sm">
-                  <strong>Formato:</strong> PNG 2 columnas | <strong>Texto:</strong> Direcciones truncadas y capitalizadas | <strong>Cache:</strong> 30 minutos | <strong>Máximo:</strong> 20 agencias
-                </p>
+              <div className="mt-4">
+                <p className="text-sm text-gray-500 mb-2">Ejemplo de resultado:</p>
+                <img 
+                  src="/agencias.png"
+                  alt="Ejemplo de API de imagen mostrando agencias"
+                  className="w-full rounded-lg border border-gray-200"
+                />
               </div>
             </div>
 
-            {/* Cron Job */}
-            <div className="border border-gray-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center">
-                <ClockIcon className="w-5 h-5 mr-1" />
-                Sincronización Automática
-              </h3>
-              <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
-                <p className="text-yellow-800 text-sm">
-                  <strong>Activo:</strong> Se ejecuta automáticamente cada 24 horas a las 00:00
-                </p>
-              </div>
-            </div>
           </div>
         </div>
 
