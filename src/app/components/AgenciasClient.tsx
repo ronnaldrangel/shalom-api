@@ -64,7 +64,7 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
 
   useEffect(() => {
     setIsClient(true);
-    
+
     // Cargar estado del localStorage después del montaje
     const saved = localStorage.getItem('isMinimalMode');
     if (saved !== null) {
@@ -81,9 +81,9 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
   const filteredAgencias = agencias.filter(agencia => {
     // Filtrar agencias que tengan ter_habilitado_OS = 0
     if (agencia.ter_habilitado_OS === 0) return false;
-    
+
     if (!searchTerm) return true;
-    
+
     const searchLower = searchTerm.toLowerCase();
     return (
       agencia.zona?.toLowerCase().includes(searchLower) ||
@@ -141,6 +141,9 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
                         {agencia.lugar_over.toLowerCase()}
                       </h3>
                       <p className="text-sm text-gray-600 mb-2 capitalize">
+                        {agencia.nombre.toLowerCase()}
+                      </p>
+                      <p className="text-sm text-gray-400 mb-2 capitalize">
                         {agencia.direccion.toLowerCase()}
                       </p>
                     </div>
@@ -221,7 +224,7 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
                 <span className="ml-2">
                   • Actualizado: {new Date(lastUpdated).toLocaleString('es-ES', {
                     day: '2-digit',
-                    month: '2-digit', 
+                    month: '2-digit',
                     year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
@@ -245,15 +248,13 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
                 <button
                   onClick={() => setIsMinimalMode(!isMinimalMode)}
                   suppressHydrationWarning
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ${
-                    isMinimalMode ? 'bg-white' : 'bg-red-800'
-                  }`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ${isMinimalMode ? 'bg-white' : 'bg-red-800'
+                    }`}
                 >
                   <span
                     suppressHydrationWarning
-                    className={`inline-block h-4 w-4 transform rounded-full transition-transform ${
-                      isMinimalMode ? 'translate-x-6 bg-red-600' : 'translate-x-1 bg-white'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full transition-transform ${isMinimalMode ? 'translate-x-6 bg-red-600' : 'translate-x-1 bg-white'
+                      }`}
                   />
                 </button>
               </div>
