@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateApiKey as dbValidateApiKey, checkMonthlyLimit, incrementUsage } from './database';
+import { validateApiKey as dbValidateApiKey, checkMonthlyLimit, incrementUsage, logRequest } from './database';
 
 // API Key para autenticación
 const API_KEY = process.env.API_KEY || 'shalom-api-key-2024';
@@ -90,10 +90,19 @@ export async function checkRateLimit(
 export async function recordUsage(
   userId: string,
   apiKeyId: string,
-  endpoint: string
+  endpoint: string,
+  method: string = 'GET',
+  status: number = 200,
+  ip?: string,
+  userAgent?: string,
+  duration?: number
 ): Promise<void> {
   try {
+    // 1. Incrementar contador de uso mensual
     await incrementUsage(userId, apiKeyId, endpoint);
+    
+    // 2. Registrar log detallado
+    await logRequest(userId, apiKeyId, endpoint, method, status, ip, userAgent, duration);
   } catch (error) {
     console.error('Error registrando uso:', error);
     // No lanzamos error para no interrumpir la respuesta
@@ -196,8 +205,9 @@ export async function authMiddleware(
     };
   }
 
-  // Registrar el uso (async, no bloquea la respuesta)
-  recordUsage(authResult.user!.id, authResult.apiKey!.id, endpoint);
+  // IMPORTANTE: Ya no registramos el uso aquí automáticamente.
+  // Cada ruta debe llamar a recordUsage al final para registrar duración y otros detalles.
+  // Esto evita duplicar los logs.
 
   return {
     success: true,

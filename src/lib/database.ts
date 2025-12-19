@@ -1,24 +1,19 @@
 import { PrismaClient } from '../generated/prisma';
+import { randomUUID } from 'crypto';
 
-// Singleton para el cliente de Prisma
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
+// Evitar múltiples instancias de Prisma Client en desarrollo
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+export const prisma = globalForPrisma.prisma || new PrismaClient();
 
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = prisma;
-}
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
-// Función para conectar a la base de datos
 export async function connectDatabase() {
   try {
     await prisma.$connect();
-    console.log('✅ Conectado a la base de datos');
   } catch (error) {
-    console.error('❌ Error conectando a la base de datos:', error);
-    throw error;
+    console.error('Error conectando a la base de datos:', error);
+    throw new Error('No se pudo conectar a la base de datos');
   }
 }
 
@@ -33,12 +28,31 @@ export async function disconnectDatabase() {
 }
 
 // Función para crear un usuario
-export async function createUser(email: string, name?: string, monthlyLimit: number = 5000) {
+export async function createUser(email: string, name?: string, password?: string, monthlyLimit: number = 10) {
+  const key = generateApiKey();
+
   return await prisma.user.create({
     data: {
       email,
       name,
+      password,
       monthlyLimit,
+      apiKeys: {
+        create: {
+          key,
+          name: 'Default API Key',
+          monthlyLimit,
+        },
+      },
+    },
+  });
+}
+
+// Función para obtener un usuario por email
+export async function getUserByEmail(email: string) {
+  return await prisma.user.findUnique({
+    where: {
+      email,
     },
   });
 }
@@ -260,4 +274,83 @@ export async function getAllUsers() {
   });
 
   return users;
+}
+
+// Función para registrar un log de request
+export async function logRequest(
+  userId: string,
+  apiKeyId: string,
+  endpoint: string,
+  method: string,
+  status: number,
+  ip?: string,
+  userAgent?: string,
+  duration?: number
+) {
+  try {
+    // Verificar si requestLog está disponible en el cliente de Prisma
+    // Esto previene errores si el cliente no se ha regenerado aún
+    if (!prisma.requestLog) {
+      // Fallback: Intentar insertar usando raw SQL si el modelo no existe en el cliente
+      // pero la tabla sí existe en la DB
+      try {
+        const id = randomUUID();
+        const now = new Date();
+        
+        await prisma.$executeRaw`
+          INSERT INTO "request_logs" (
+            "id", "userId", "apiKeyId", "endpoint", "method", "status", "ip", "userAgent", "duration", "createdAt"
+          ) VALUES (
+            ${id}, ${userId}, ${apiKeyId}, ${endpoint}, ${method}, ${status}, ${ip}, ${userAgent}, ${duration}, ${now}
+          )
+        `;
+        return;
+      } catch (e) {
+        console.error('Error en fallback raw insert:', e);
+        console.warn('Prisma Client no tiene el modelo requestLog y el fallback falló.');
+        return;
+      }
+    }
+
+    await prisma.requestLog.create({
+      data: {
+        userId,
+        apiKeyId,
+        endpoint,
+        method,
+        status,
+        ip,
+        userAgent,
+        duration,
+      },
+    });
+  } catch (error) {
+    console.error('Error creando log de request:', error);
+    // No lanzamos error para no interrumpir el flujo principal
+  }
+}
+
+// Función para obtener estadísticas diarias de uso
+export async function getDailyUsageStats(userId: string, days: number = 30) {
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+
+  // Usamos raw query para agrupar por día eficientemente en PostgreSQL
+  try {
+    const dailyStats = await prisma.$queryRaw`
+      SELECT 
+        TO_CHAR("createdAt", 'YYYY-MM-DD') as date,
+        COUNT(*)::int as count
+      FROM "request_logs"
+      WHERE "userId" = ${userId}
+        AND "createdAt" >= ${startDate}
+      GROUP BY TO_CHAR("createdAt", 'YYYY-MM-DD')
+      ORDER BY date ASC
+    `;
+    
+    return dailyStats;
+  } catch (error) {
+    console.error('Error obteniendo estadísticas diarias:', error);
+    return [];
+  }
 }

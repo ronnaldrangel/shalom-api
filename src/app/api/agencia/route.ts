@@ -21,10 +21,26 @@ interface Agencia {
 const DATA_FILE = path.join(process.cwd(), 'data', 'agencias.json');
 
 export async function GET(request: NextRequest) {
+  const startTime = Date.now();
   // Validar API key y verificar rate limit
   const authResult = await authMiddleware(request, '/api/agencia');
   
   if (!authResult.success) {
+    // Si la autenticación falla, igual podríamos querer loguear, pero como no tenemos userId/apiKeyId confiables, 
+    // quizás solo logueamos intentos fallidos si tenemos la API key (aunque sea inválida)
+    // Por ahora, solo logueamos requests exitosos o con rate limit excedido si tenemos userId
+    if (authResult.status === 429 && authResult.user && authResult.apiKey) {
+      const duration = Date.now() - startTime;
+      const ip = request.headers.get('x-forwarded-for') || 'unknown';
+      const userAgent = request.headers.get('user-agent') || 'unknown';
+      
+      // Registrar intento fallido por rate limit
+      // recordUsage ya se encarga de logRequest si lo llamamos apropiadamente, pero aquí falló el middleware.
+      // Sin embargo, recordUsage es para "registrar uso exitoso" normalmente.
+      // Vamos a llamar logRequest directamente aquí si es necesario, pero authMiddleware no lo hace.
+      // Dejemos que el flujo normal maneje los logs de éxito.
+    }
+
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
@@ -39,6 +55,7 @@ export async function GET(request: NextRequest) {
       { status: authResult.status || 401, headers }
     );
   }
+  
   try {
     // Obtener el query parameter
     const { searchParams } = new URL(request.url);
@@ -73,6 +90,27 @@ export async function GET(request: NextRequest) {
       // Solo buscar en el campo 'nombre'
       return agencia.nombre?.toLowerCase().includes(queryLower);
     });
+
+    // Registrar uso y log
+    if (authResult.user && authResult.apiKey && authResult.user.id !== 'master') {
+      const duration = Date.now() - startTime;
+      const ip = request.headers.get('x-forwarded-for') || 'unknown';
+      const userAgent = request.headers.get('user-agent') || 'unknown';
+
+      // Usar recordUsage que ahora soporta logs detallados
+      // Importamos recordUsage dinámicamente o aseguramos que esté importado
+      const { recordUsage } = await import('@/lib/auth');
+      await recordUsage(
+        authResult.user.id,
+        authResult.apiKey.id,
+        '/api/agencia',
+        'GET',
+        200,
+        ip,
+        userAgent,
+        duration
+      );
+    }
 
     // Devolver los resultados con información adicional
     return NextResponse.json({

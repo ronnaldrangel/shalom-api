@@ -129,6 +129,7 @@ function generateCompactPNG(agencias: Agencia[], query: string): string {
 connectDatabase();
 
 export async function GET(request: NextRequest) {
+  const startTime = Date.now();
   try {
     // Validar API key y verificar rate limit
     const authResult = await authMiddleware(request, '/api/imagen-nombre');
@@ -174,6 +175,26 @@ export async function GET(request: NextRequest) {
 
     // Generar SVG compacto
     const svgContent = generateCompactPNG(agenciasFiltradas, query);
+
+    // Registrar uso y log
+    if (authResult.user && authResult.apiKey && authResult.user.id !== 'master') {
+      const duration = Date.now() - startTime;
+      const ip = request.headers.get('x-forwarded-for') || 'unknown';
+      const userAgent = request.headers.get('user-agent') || 'unknown';
+
+      // Usar recordUsage que ahora soporta logs detallados
+      const { recordUsage } = await import('@/lib/auth');
+      await recordUsage(
+        authResult.user.id,
+        authResult.apiKey.id,
+        '/api/imagen-nombre',
+        'GET',
+        200,
+        ip,
+        userAgent,
+        duration
+      );
+    }
 
     // Convertir SVG a PNG usando sharp
     const pngBuffer = await sharp(Buffer.from(svgContent))

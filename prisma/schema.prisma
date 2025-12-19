@@ -14,14 +14,16 @@ datasource db {
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
+  password     String?  // Contraseña encriptada
   name         String?
-  monthlyLimit Int      @default(5000) // Límite mensual de consultas por usuario
+  monthlyLimit Int      @default(10) // Límite mensual de consultas por usuario
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   
   // Relaciones
   apiKeys      ApiKey[]
   usage        Usage[]
+  logs         RequestLog[]
   
   @@map("users")
 }
@@ -39,6 +41,7 @@ model ApiKey {
   // Relaciones
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   usage       Usage[]
+  logs        RequestLog[]
   
   @@map("api_keys")
 }
@@ -61,4 +64,24 @@ model Usage {
   // Índice único para evitar duplicados por usuario/apikey/endpoint/mes/año
   @@unique([userId, apiKeyId, endpoint, month, year])
   @@map("usage")
+}
+
+model RequestLog {
+  id        String   @id @default(cuid())
+  userId    String
+  apiKeyId  String
+  endpoint  String
+  method    String
+  status    Int
+  ip        String?
+  userAgent String?
+  duration  Int?     // Duración en ms
+  createdAt DateTime @default(now())
+
+  // Relaciones
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKey    ApiKey   @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("request_logs")
 }

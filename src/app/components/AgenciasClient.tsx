@@ -235,6 +235,18 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
 
             <div className="flex items-center gap-4">
               <Link
+                href="/login"
+                className="text-sm font-medium text-white hover:text-red-100 transition-colors"
+              >
+                Login
+              </Link>
+              <Link
+                href="/register"
+                className="bg-white text-sm text-red-600 font-medium px-4 py-2 rounded-lg hover:bg-red-50 transition-colors"
+              >
+                Registro
+              </Link>
+              <Link
                 href="/docs"
                 className="bg-red-600 text-sm text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap"
               >

@@ -6,6 +6,7 @@ import { validateApiKey, validateApiKeyLegacyString } from '@/lib/auth';
 const DATA_FILE = path.join(process.cwd(), 'data', 'agencias.json');
 
 export async function GET(request: NextRequest) {
+  const startTime = Date.now();
   // Validar API key
   const apiKey = request.headers.get('x-api-key');
   
@@ -37,6 +38,27 @@ export async function GET(request: NextRequest) {
     const agencias = JSON.parse(data);
 
     // Devolver los datos exactamente como vienen de la API externa
+    
+    // Registrar uso y log
+    if (authResult.isValid && authResult.user && authResult.apiKey) {
+      const duration = Date.now() - startTime;
+      const ip = request.headers.get('x-forwarded-for') || 'unknown';
+      const userAgent = request.headers.get('user-agent') || 'unknown';
+
+      // Usar recordUsage que ahora soporta logs detallados
+      const { recordUsage } = await import('@/lib/auth');
+      await recordUsage(
+        authResult.user.id,
+        authResult.apiKey.id,
+        '/api/listar',
+        'GET',
+        200,
+        ip,
+        userAgent,
+        duration
+      );
+    }
+    
     return NextResponse.json(agencias);
   } catch (error) {
     console.error('Error al leer datos de agencias:', error);
