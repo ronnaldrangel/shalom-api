@@ -7,7 +7,9 @@ import {
   HomeIcon, 
   KeyIcon, 
   ArrowLeftOnRectangleIcon,
-  ClipboardDocumentListIcon
+  ClipboardDocumentListIcon,
+  UserCircleIcon,
+  BookOpenIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardLayout({
@@ -42,6 +44,8 @@ export default function DashboardLayout({
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
     { name: 'API Key', href: '/dashboard/apikey', icon: KeyIcon },
     { name: 'Logs', href: '/dashboard/logs', icon: ClipboardDocumentListIcon },
+    { name: 'Documentación', href: '/dashboard/docs', icon: BookOpenIcon },
+    { name: 'Perfil', href: '/dashboard/profile', icon: UserCircleIcon },
   ];
 
   return (
