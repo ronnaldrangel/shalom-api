@@ -13,7 +13,8 @@ import {
   SunIcon,
   MoonIcon,
   Bars3Icon,
-  XMarkIcon
+  XMarkIcon,
+  ShieldCheckIcon
 } from '@heroicons/react/24/outline';
 import Loader from '../components/Loader';
 import { useTheme } from 'next-themes';
@@ -27,7 +28,7 @@ export default function DashboardLayout({
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [user, setUser] = useState<{ id: string; name: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ id: string; name: string; email: string; role?: string } | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -57,6 +58,10 @@ export default function DashboardLayout({
     { name: 'Documentación', href: '/dashboard/docs', icon: BookOpenIcon },
     { name: 'Perfil', href: '/dashboard/profile', icon: UserCircleIcon },
   ];
+
+  if (user?.role === 'admin') {
+    navigation.push({ name: 'Admin Panel', href: '/admin', icon: ShieldCheckIcon });
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans">
