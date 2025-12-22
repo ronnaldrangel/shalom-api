@@ -2,25 +2,24 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Loader from '../../components/Loader';
+import { toast } from 'sonner';
 
 export default function ProfilePage() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  
+
   // Estados separados para los dos formularios
   const [nameData, setNameData] = useState({
     name: '',
   });
-  
+
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
-
-  const [nameMessage, setNameMessage] = useState({ type: '', text: '' });
-  const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -45,7 +44,6 @@ export default function ProfilePage() {
   // Función para guardar solo el nombre
   const handleNameSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setNameMessage({ type: '', text: '' });
 
     try {
       const res = await fetch('/api/user/update', {
@@ -70,30 +68,29 @@ export default function ProfilePage() {
       const updatedUser = { ...user, ...data.user };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
-      
-      setNameMessage({ type: 'success', text: 'Nombre actualizado correctamente' });
+
+      toast.success('Nombre actualizado correctamente');
     } catch (error: any) {
-      setNameMessage({ type: 'error', text: error.message || 'Error al actualizar el nombre' });
+      toast.error(error.message || 'Error al actualizar el nombre');
     }
   };
 
   // Función para cambiar contraseña
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setPasswordMessage({ type: '', text: '' });
 
     if (!passwordData.newPassword || !passwordData.confirmPassword) {
-      setPasswordMessage({ type: 'error', text: 'Completa todos los campos' });
+      toast.error('Completa todos los campos');
       return;
     }
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setPasswordMessage({ type: 'error', text: 'Las nuevas contraseñas no coinciden' });
+      toast.error('Las nuevas contraseñas no coinciden');
       return;
     }
 
     if (!passwordData.currentPassword) {
-      setPasswordMessage({ type: 'error', text: 'Ingresa tu contraseña actual' });
+      toast.error('Ingresa tu contraseña actual');
       return;
     }
 
@@ -116,8 +113,8 @@ export default function ProfilePage() {
         throw new Error(data.error || 'Error al actualizar la contraseña');
       }
 
-      setPasswordMessage({ type: 'success', text: 'Contraseña actualizada correctamente' });
-      
+      toast.success('Contraseña actualizada correctamente');
+
       // Limpiar campos de contraseña
       setPasswordData({
         currentPassword: '',
@@ -125,16 +122,16 @@ export default function ProfilePage() {
         confirmPassword: '',
       });
     } catch (error: any) {
-      setPasswordMessage({ type: 'error', text: error.message || 'Error al actualizar la contraseña' });
+      toast.error(error.message || 'Error al actualizar la contraseña');
     }
   };
 
   if (loading) {
-    return <div className="p-4">Cargando perfil...</div>;
+    return <Loader message="Cargando tu perfil..." />;
   }
 
   return (
-    <div className="max-w-4xl mx-auto py-8 space-y-8">
+    <div className="py-2 space-y-8">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Ajustes de Perfil</h1>
 
       {/* Sección 1: Información Personal */}
@@ -142,16 +139,6 @@ export default function ProfilePage() {
         <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
           Información Personal
         </h2>
-        
-        {nameMessage.text && (
-          <div className={`mb-4 p-4 rounded-md ${
-            nameMessage.type === 'error' 
-              ? 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
-              : 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-          }`}>
-            {nameMessage.text}
-          </div>
-        )}
 
         <form onSubmit={handleNameSubmit} className="space-y-6">
           <div>
@@ -199,16 +186,6 @@ export default function ProfilePage() {
         <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
           Seguridad
         </h2>
-
-        {passwordMessage.text && (
-          <div className={`mb-4 p-4 rounded-md ${
-            passwordMessage.type === 'error' 
-              ? 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
-              : 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-          }`}>
-            {passwordMessage.text}
-          </div>
-        )}
 
         <form onSubmit={handlePasswordSubmit} className="space-y-6">
           <div>

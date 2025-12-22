@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Loader from '../../components/Loader';
+import { toast } from 'sonner';
 
 interface Log {
   id: string;
@@ -29,7 +31,6 @@ export default function LogsPage() {
   const [logs, setLogs] = useState<Log[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export default function LogsPage() {
 
         const user = JSON.parse(storedUser);
         const res = await fetch(`/api/users/${user.id}/logs?page=${currentPage}&limit=10`);
-        
+
         if (!res.ok) {
           throw new Error('Error al cargar logs');
         }
@@ -53,7 +54,7 @@ export default function LogsPage() {
         setLogs(data.logs);
         setPagination(data.pagination);
       } catch (err: any) {
-        setError(err.message);
+        toast.error('Error al cargar logs: ' + err.message);
       } finally {
         setLoading(false);
       }
@@ -82,11 +83,9 @@ export default function LogsPage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Registro de Actividad</h1>
-      
+
       {loading && logs.length === 0 ? (
-        <div className="p-4 text-center">Cargando logs...</div>
-      ) : error ? (
-        <div className="p-4 text-red-500">Error: {error}</div>
+        <Loader message="Cargando registros..." />
       ) : (
         <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
           <div className="overflow-x-auto">
@@ -149,7 +148,7 @@ export default function LogsPage() {
               </tbody>
             </table>
           </div>
-          
+
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
             <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">

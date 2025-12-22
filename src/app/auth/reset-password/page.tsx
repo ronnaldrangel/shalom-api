@@ -3,6 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -11,18 +12,14 @@ function ResetPasswordForm() {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setMessage('');
 
     if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden');
+      toast.error('Las contraseñas no coinciden');
       setLoading(false);
       return;
     }
@@ -42,12 +39,12 @@ function ResetPasswordForm() {
         throw new Error(data.error || 'Error al restablecer contraseña');
       }
 
-      setMessage('Contraseña actualizada correctamente. Redirigiendo...');
+      toast.success('Contraseña actualizada correctamente. Redirigiendo...');
       setTimeout(() => {
-        router.push('/login');
-      }, 3000);
+        router.push('/auth/login');
+      }, 2000);
     } catch (err: any) {
-      setError(err.message);
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }
@@ -55,90 +52,85 @@ function ResetPasswordForm() {
 
   if (!token) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
-        <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-          <div className="text-center">
-            <h2 className="text-xl font-bold text-red-600">Token inválido</h2>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">El enlace para restablecer la contraseña no es válido.</p>
-            <div className="mt-4">
-              <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Volver al inicio de sesión
-              </Link>
-            </div>
-          </div>
+      <div className="space-y-6 text-center">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-50 dark:bg-red-900/10 text-red-600 mb-4">
+          <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Token inválido</h2>
+        <p className="text-gray-500 dark:text-gray-400">
+          El enlace para restablecer la contraseña ha expirado o no es válido.
+        </p>
+        <div className="pt-4">
+          <Link href="/auth/login" className="font-bold text-brand-red hover:text-brand-red-hover transition-colors">
+            Volver al inicio de sesión
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 dark:bg-gray-900">
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Nueva Contraseña
-          </h2>
+    <div className="space-y-10">
+      <div className="space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Nueva Contraseña
+        </h2>
+        <p className="text-gray-500 dark:text-gray-400 font-medium">
+          Crea una contraseña segura que no uses en otros sitios.
+        </p>
+      </div>
+
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="password" className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">
+              Nueva Contraseña
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              className="block w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all duration-200 sm:text-sm"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="confirmPassword" className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">
+              Confirmar Contraseña
+            </label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+              className="block w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all duration-200 sm:text-sm"
+              placeholder="••••••••"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
         </div>
 
-        {message && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <span className="block sm:inline">{message}</span>
-          </div>
-        )}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-brand-red hover:bg-brand-red-hover focus:outline-none focus:ring-4 focus:ring-brand-red/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand-red/20"
+        >
+          {loading ? 'Guardando...' : 'Cambiar Contraseña'}
+        </button>
+      </form>
 
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span className="block sm:inline">{error}</span>
-          </div>
-        )}
-
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div className="mb-4">
-              <label htmlFor="password" className="sr-only">
-                Nueva Contraseña
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Nueva Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="confirmPassword" className="sr-only">
-                Confirmar Contraseña
-              </label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                required
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Confirmar Contraseña"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                loading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              {loading ? 'Guardando...' : 'Cambiar Contraseña'}
-            </button>
-          </div>
-        </form>
-      </div>
+      <p className="text-center text-sm font-medium text-gray-600 dark:text-gray-400">
+        ¿Recordaste tu contraseña?{' '}
+        <Link href="/auth/login" className="font-bold text-brand-red hover:text-brand-red-hover transition-colors">
+          Volver al inicio de sesión
+        </Link>
+      </p>
     </div>
   );
 }

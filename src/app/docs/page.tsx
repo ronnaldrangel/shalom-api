@@ -1,6 +1,5 @@
 'use client';
 import Link from 'next/link';
-import { Metadata } from 'next';
 import {
   CodeBracketIcon,
   DocumentTextIcon,
@@ -8,12 +7,14 @@ import {
   ServerIcon,
   ArrowPathIcon
 } from '@heroicons/react/24/outline';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 export default function DocsPage() {
 
   const handleSync = async () => {
     try {
-      const response = await fetch('/api/sync', { 
+      const response = await fetch('/api/sync', {
         method: 'POST',
         headers: {
           'x-api-key': 'shalom-api-key-2024'
@@ -28,30 +29,10 @@ export default function DocsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="shadow-sm border-b" style={{ backgroundColor: '#ee2a2f' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-
-            <div className="flex-1">
-              <h1 className="text-xl md:text-3xl font-bold text-white">Documentación - Shalom API</h1>
-              <p className="text-red-100 mt-1 text-sm md:text-base">
-                Guía completa para usar la API de agencias Shalom - Endpoints, ejemplos y mejores prácticas
-              </p>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Link
-                href="/"
-                className="bg-red-600 text-sm text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap"
-              >
-                🏢 Ver Agencias
-              </Link>
-            </div>
-
-          </div>
-        </div>
-      </header>
+      <Header
+        title="Documentación - Shalom API"
+        description="Guía completa para usar la API de agencias Shalom - Endpoints, ejemplos y mejores prácticas"
+      />
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" role="main">
@@ -82,7 +63,7 @@ export default function DocsPage() {
           <p className="text-gray-700 mb-4">
             Todas las rutas de la API requieren autenticación mediante API key para garantizar la seguridad.
           </p>
-          
+
           <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
             <p className="text-yellow-800">
               <strong>API Key:</strong> <code>[************]</code>
@@ -91,7 +72,7 @@ export default function DocsPage() {
                   const message = encodeURIComponent(
                     "Hola, me gustaría solicitar acceso al API key de Shalom API. Gracias!"
                   );
-                  window.open(`https://wa.me/51924079147?text=${message}`, '_blank');
+                  window.open(`https://wa.me/51920789569?text=${message}`, '_blank');
                 }}
                 className="ml-2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded transition-colors"
               >
@@ -111,7 +92,7 @@ export default function DocsPage() {
           </div> */}
 
           <h3 className="text-lg font-semibold text-gray-900 mb-3">Métodos de autenticación</h3>
-          
+
           <div className="space-y-4">
             <div className="border border-gray-200 rounded-lg p-4 text-black">
               <h4 className="font-semibold text-gray-900 mb-2">1. Header x-api-key</h4>
@@ -120,7 +101,7 @@ export default function DocsPage() {
    https://shalom-api.live/api/listar`}</code>
               </pre>
             </div>
-            
+
             <div className="border border-gray-200 rounded-lg p-4 text-black">
               <h4 className="font-semibold text-gray-900 mb-2">2. Authorization Bearer</h4>
               <pre className="bg-gray-100 p-3 rounded text-sm overflow-x-auto">
@@ -270,7 +251,7 @@ https://shalom-api.live/api/listar`}</code>
               </div>
               <div className="mt-4">
                 <p className="text-sm text-gray-500 mb-2">Ejemplo de resultado:</p>
-                <img 
+                <img
                   src="/agencias.png"
                   alt="Ejemplo de API de imagen mostrando agencias"
                   className="w-full rounded-lg border border-gray-200"
@@ -340,6 +321,7 @@ https://shalom-api.live/api/listar`}</code>
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

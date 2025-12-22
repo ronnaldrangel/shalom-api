@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  ClipboardDocumentIcon, 
+import {
+  ClipboardDocumentIcon,
   ClipboardDocumentCheckIcon,
   ServerIcon,
   MagnifyingGlassIcon,
@@ -29,7 +29,7 @@ export default function DocsPage() {
       icon: ListBulletIcon,
       params: [],
       example: {
-        request: `curl -X GET "https://api.shalom.com/api/listar" \\
+        request: `curl -X GET "https://app.shalom-api.com/api/listar" \\
   -H "x-api-key: TU_API_KEY"`,
         response: `{
   "data": [
@@ -54,7 +54,7 @@ export default function DocsPage() {
         { name: 'q', type: 'string', required: true, description: 'Término de búsqueda' }
       ],
       example: {
-        request: `curl -X GET "https://api.shalom.com/api/buscar?q=lima" \\
+        request: `curl -X GET "https://app.shalom-api.com/api/buscar?q=lima" \\
   -H "x-api-key: TU_API_KEY"`,
         response: `{
   "success": true,
@@ -74,7 +74,7 @@ export default function DocsPage() {
         { name: 'q', type: 'string', required: true, description: 'Nombre de la agencia a buscar' }
       ],
       example: {
-        request: `curl -X GET "https://api.shalom.com/api/nombre?q=miraflores" \\
+        request: `curl -X GET "https://app.shalom-api.com/api/nombre?q=miraflores" \\
   -H "x-api-key: TU_API_KEY"`,
         response: `{
   "success": true,
@@ -95,7 +95,7 @@ export default function DocsPage() {
         { name: 'q', type: 'string', required: true, description: 'Término de búsqueda para generar la imagen' }
       ],
       example: {
-        request: `curl -X GET "https://api.shalom.com/api/image?q=arequipa" \\
+        request: `curl -X GET "https://app.shalom-api.com/api/image?q=arequipa" \\
   -H "x-api-key: TU_API_KEY" --output agencias.png`,
         response: `[Binary PNG Data]`
       }
@@ -103,17 +103,9 @@ export default function DocsPage() {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-      <div className="md:flex md:items-center md:justify-between mb-8">
-        <div className="min-w-0 flex-1">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:truncate sm:text-3xl sm:tracking-tight">
-            Documentación de la API
-          </h2>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Guía completa para integrar la API de Shalom en tus aplicaciones.
-          </p>
-        </div>
-      </div>
+    <div className="py-2 space-y-8">
+
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Documentación de la API</h1>
 
       <div className="space-y-12">
         {/* Authentication Section */}
@@ -144,11 +136,10 @@ export default function DocsPage() {
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white">
                       {endpoint.title}
                     </h3>
-                    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
-                      endpoint.method === 'GET' 
-                        ? 'bg-blue-50 text-blue-700 ring-blue-700/10 dark:bg-blue-900/30 dark:text-blue-400 dark:ring-blue-400/30'
-                        : 'bg-green-50 text-green-700 ring-green-600/20'
-                    }`}>
+                    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${endpoint.method === 'GET'
+                      ? 'bg-blue-50 text-blue-700 ring-blue-700/10 dark:bg-blue-900/30 dark:text-blue-400 dark:ring-blue-400/30'
+                      : 'bg-green-50 text-green-700 ring-green-600/20'
+                      }`}>
                       {endpoint.method}
                     </span>
                   </div>

@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import {
   MagnifyingGlassIcon,
@@ -8,8 +9,12 @@ import {
   PhoneIcon,
   MapPinIcon,
   ArrowRightCircleIcon,
-  ArrowDownTrayIcon
+  ArrowDownTrayIcon,
+  SunIcon,
+  MoonIcon
 } from '@heroicons/react/24/outline';
+import Footer from './Footer';
+import Header from './Header';
 
 interface Agencia {
   ter_id: number;
@@ -60,6 +65,21 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
   const [agencias] = useState<Agencia[]>(initialAgencias);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isMinimalMode, setIsMinimalMode] = useState(true);
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // When mounted on client, now we can show the UI
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDarkMode = resolvedTheme === 'dark';
+
+  const toggleTheme = () => {
+    setTheme(isDarkMode ? 'light' : 'dark');
+  };
+
+
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -114,17 +134,17 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
         {filteredAgencias.map((agencia) => (
-          <div key={agencia.ter_id} className="bg-white rounded-lg shadow-sm transition-shadow border">
+          <div key={agencia.ter_id} className="bg-white dark:bg-gray-900 rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-200 dark:border-gray-800 overflow-hidden group">
             {isMinimalMode ? (
               /* Vista Minimal */
               <div className="p-2 md:p-4 group">
                 <div className="flex items-center">
                   <MapPinIcon className="w-10 h-auto text-red-600 mr-3 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-md font-semibold text-gray-900 capitalize">
+                    <h3 className="text-md font-bold text-gray-900 dark:text-gray-100 capitalize">
                       {agencia.lugar_over.toLowerCase()}
                     </h3>
-                    <p className="text-sm text-gray-600 capitalize truncate">
+                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 capitalize truncate">
                       {agencia.direccion.toLowerCase()}
                     </p>
                   </div>
@@ -137,13 +157,13 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <MapPinIcon className="w-10 h-auto text-red-600 mb-3" />
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2 capitalize">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 capitalize">
                         {agencia.lugar_over.toLowerCase()}
                       </h3>
-                      <p className="text-sm text-gray-600 mb-2 capitalize">
+                      <p className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1 capitalize">
                         {agencia.nombre.toLowerCase()}
                       </p>
-                      <p className="text-sm text-gray-400 mb-2 capitalize">
+                      <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-2 capitalize">
                         {agencia.direccion.toLowerCase()}
                       </p>
                     </div>
@@ -162,23 +182,23 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
                   </div>
 
                   {/* Horarios */}
-                  <div className="mb-2">
-                    <div className="flex items-center text-sm text-gray-500 font-semibold mb-1">
-                      <ClockIcon className="w-4 h-4 mr-2" />
+                  <div className="mb-4 space-y-2">
+                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 font-semibold">
+                      <ClockIcon className="w-4 h-4 mr-2 text-brand-red opacity-70" />
                       {agencia.hora_atencion}
                     </div>
                     {agencia.hora_domingo && (
-                      <div className="flex items-center text-sm text-gray-500 font-semibold">
-                        <ClockIcon className="w-4 h-4 mr-2 text-white" />
+                      <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 font-semibold">
+                        <ClockIcon className="w-4 h-4 mr-2 text-brand-red opacity-70" />
                         {agencia.hora_domingo}
                       </div>
                     )}
                   </div>
 
                   {/* Teléfono */}
-                  <div className="mb-4">
-                    <div className="flex items-center text-sm text-gray-500 font-semibold">
-                      <PhoneIcon className="w-4 h-4 mr-2" />
+                  <div className="mb-2">
+                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 font-semibold">
+                      <PhoneIcon className="w-4 h-4 mr-2 text-brand-red opacity-70" />
                       {agencia.telefono}
                     </div>
                   </div>
@@ -194,10 +214,10 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
                         "noopener,noreferrer"
                       );
                     }}
-                    className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-300 rounded-md hover:bg-red-50 hover:text-red-700 transition-colors cursor-pointer"
+                    className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-bold text-brand-red dark:text-red-400 bg-white dark:bg-gray-800 border border-red-200 dark:border-brand-red/20 rounded-xl hover:bg-red-50 dark:hover:bg-brand-red/10 transition-all cursor-pointer shadow-sm group-hover:border-brand-red/40"
                   >
-                    <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
-                    Ver tarifas
+                    <ArrowDownTrayIcon className="w-4 h-4 mr-2 transition-transform group-hover:translate-y-0.5" />
+                    Descargar Tarifas
                   </button>
                 </div>
               </>
@@ -209,131 +229,65 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="shadow-sm border-b" style={{ backgroundColor: '#ee2a2f' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div className="flex-1">
-              <h1 className="text-xl md:text-3xl font-bold text-white">Shalom | Shalom API | Shalom Agencias</h1>
-              <p className="text-red-100 mt-1 text-sm md:text-base">
-                API oficial Shalom - Consulta todas las agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de agencias Shalom.
-              </p>
-              <p className="text-red-100 mt-1 text-xs md:text-sm">
-                {filteredAgencias.length} de {agencias.length} agencias disponibles
-                <span className="ml-2">
-                  • Actualizado: {new Date(lastUpdated).toLocaleString('es-ES', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </span>
-              </p>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Link
-                href="/login"
-                className="text-sm font-medium text-white hover:text-red-100 transition-colors"
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                className="bg-white text-sm text-red-600 font-medium px-4 py-2 rounded-lg hover:bg-red-50 transition-colors"
-              >
-                Registro
-              </Link>
-              <Link
-                href="/docs"
-                className="bg-red-600 text-sm text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors whitespace-nowrap"
-              >
-                📚 Documentación
-              </Link>
-
-              <div className="flex items-center space-x-3">
-                <span className="text-sm font-medium text-white">
-                  Vista Minimal
-                </span>
-                <button
-                  onClick={() => setIsMinimalMode(!isMinimalMode)}
-                  suppressHydrationWarning
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ${isMinimalMode ? 'bg-white' : 'bg-red-800'
-                    }`}
-                >
-                  <span
-                    suppressHydrationWarning
-                    className={`inline-block h-4 w-4 transform rounded-full transition-transform ${isMinimalMode ? 'translate-x-6 bg-red-600' : 'translate-x-1 bg-white'
-                      }`}
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950 font-sans">
+      <Header lastUpdated={lastUpdated} />
 
       {/* Buscador */}
-      <section className="bg-white shadow-sm border-b" aria-label="Búsqueda de agencias">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="max-w-md mx-auto">
-            <h2 className="sr-only">Buscar agencias Shalom - Shalom API</h2>
-            <div className="relative">
+      <section className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40 transition-all shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6">
+          <div className="flex flex-row items-center gap-2 md:gap-6 max-w-4xl mx-auto">
+            <div className="relative group flex-1">
               <input
                 type="text"
-                placeholder="Buscar agencias Shalom por zona, nombre, dirección..."
+                placeholder="Busca agencia..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 pl-10 pr-4 border border-gray-300 rounded-lg text-black"
-                aria-label="Buscar agencias Shalom por zona, nombre o dirección - Shalom API"
-                aria-describedby="search-description"
+                className="w-full h-11 md:h-14 pl-10 pr-10 bg-gray-50 dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-800 rounded-2xl text-sm md:text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-brand-red/5 focus:border-brand-red transition-all duration-200 font-medium"
               />
-              <div id="search-description" className="sr-only">
-                Busca entre {agencias.length} agencias Shalom disponibles con Shalom API
-              </div>
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
-              </div>
+              <MagnifyingGlassIcon className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 h-4 w-4 md:h-5 md:w-5 text-gray-400 group-focus-within:text-brand-red transition-colors" />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm('')}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors"
                 >
-                  <XMarkIcon className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                  <XMarkIcon className="h-4 w-4 md:h-5 md:w-5 text-gray-500" />
                 </button>
               )}
+            </div>
+
+            <div className="flex-shrink-0">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="flex items-center bg-gray-100 dark:bg-gray-800 px-3 h-11 md:h-14 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <span className="text-[10px] md:text-xs font-black text-brand-red dark:text-red-400">
+                    {filteredAgencias.length} <span className="hidden sm:inline">AGENCIAS</span>
+                  </span>
+                </div>
+
+                <div className="flex items-center space-x-2 md:space-x-3 bg-gray-100 dark:bg-gray-800 px-3 md:px-4 h-11 md:h-14 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <span className="text-[10px] md:text-xs font-black text-gray-500 dark:text-gray-400 uppercase tracking-tighter md:tracking-wider">COMPACTO</span>
+                  <button
+                    onClick={() => setIsMinimalMode(!isMinimalMode)}
+                    suppressHydrationWarning
+                    className={`relative inline-flex h-5 w-9 md:h-6 md:w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand-red/10 ${isMinimalMode ? 'bg-brand-red' : 'bg-gray-300 dark:bg-gray-700'}`}
+                  >
+                    <span
+                      suppressHydrationWarning
+                      className={`inline-block h-3 w-3 md:h-4 md:w-4 transform rounded-full transition-transform duration-200 ${isMinimalMode ? 'translate-x-5 md:translate-x-6 bg-white shadow-sm' : 'translate-x-1 bg-white/90'}`}
+                    />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" role="main">
-        <h2 className="sr-only">Resultados de agencias Shalom</h2>
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-10 min-h-[60vh]">
         {renderContent()}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white border-t mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center space-y-4">
-            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
-              Shalom API oficial - Consulta agencias Shalom en tiempo real | Shalom agencias con ubicaciones y horarios
-              <br className="sm:hidden" />
-              <span className="hidden sm:inline"> | </span>
-              Desarrollado por <a href="https://wazend.net/" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-red-600 transition-colors">Wazend</a>
-            </p>
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400">
-              <span className="bg-gray-50 px-2 py-1 rounded">Shalom API</span>
-              <span className="bg-gray-50 px-2 py-1 rounded">Agencias Shalom</span>
-              <span className="bg-gray-50 px-2 py-1 rounded">Tiempo Real</span>
-              <span className="bg-gray-50 px-2 py-1 rounded">API Gratuita</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
