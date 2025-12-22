@@ -100,18 +100,6 @@ export default function ApiKeyPage() {
           <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
             Esta es tu llave de acceso para realizar consultas a la API. Mantenla segura y no la compartas públicamente.
           </p>
-
-          <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-            <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
-              Ejemplo de uso
-            </h4>
-            <div className="bg-gray-900 rounded-md p-4 overflow-x-auto">
-              <pre className="text-sm text-gray-100">
-                {`curl -X GET "https://shalom-api.live/api/agencia" \\
-  -H "x-api-key: ${data.apiKey || 'TU_API_KEY'}"`}
-              </pre>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -98,15 +98,7 @@ export default function DocsPage() {
               <h4 className="font-semibold text-gray-900 mb-2">1. Header x-api-key</h4>
               <pre className="bg-gray-100 p-3 rounded text-sm overflow-x-auto">
                 <code>{`curl -H "x-api-key: $API_KEY" \
-   https://shalom-api.live/api/listar`}</code>
-              </pre>
-            </div>
-
-            <div className="border border-gray-200 rounded-lg p-4 text-black">
-              <h4 className="font-semibold text-gray-900 mb-2">2. Authorization Bearer</h4>
-              <pre className="bg-gray-100 p-3 rounded text-sm overflow-x-auto">
-                <code>{`curl -H "Authorization: Bearer $API_KEY" \
-https://shalom-api.live/api/listar`}</code>
+   https://app.shalom-api.com/api/listar`}</code>
               </pre>
             </div>
           </div>
