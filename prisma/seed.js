@@ -1,4 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('../src/generated/prisma');
+const bcrypt = require('bcryptjs');
 
 const prisma = new PrismaClient();
 
@@ -16,16 +17,21 @@ async function main() {
       return;
     }
 
+    // Hash de contraseña por defecto: "admin123"
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+
     // Crear usuario administrador
     const admin = await prisma.user.create({
       data: {
         email: 'admin@shalom.com',
         name: 'Administrador',
-        role: 'ADMIN'
+        password: hashedPassword,
+        monthlyLimit: 1000
       }
     });
 
     console.log('✅ Usuario administrador creado:', admin.email);
+    console.log('🔑 Contraseña por defecto: admin123');
     console.log('🌱 Seed completado exitosamente');
     
   } catch (error) {

@@ -31,6 +31,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!user.isVerified) {
+      return NextResponse.json(
+        { error: 'Cuenta no verificada. Por favor revisa tu correo.' },
+        { status: 403 }
+      );
+    }
+
     // En un caso real, aquí se generaría un JWT o sesión.
     // Por simplicidad, devolveremos los datos del usuario.
     // El frontend puede guardar estos datos en localStorage/context.
