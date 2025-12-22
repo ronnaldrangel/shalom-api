@@ -27,7 +27,7 @@ export default function DashboardPage() {
       try {
         const storedUser = localStorage.getItem('user');
         if (!storedUser) {
-          router.push('/login');
+          router.push('/auth/login');
           return;
         }
 

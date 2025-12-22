@@ -39,7 +39,8 @@ export default function LogsPage() {
       try {
         const storedUser = localStorage.getItem('user');
         if (!storedUser) {
-          router.push('/login');
+          router.push('/auth/login');
+          setLoading(false);
           return;
         }
 

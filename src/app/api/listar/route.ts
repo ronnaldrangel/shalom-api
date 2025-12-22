@@ -9,20 +9,25 @@ export async function GET(request: NextRequest) {
   const startTime = Date.now();
   // Validar API key
   const apiKey = request.headers.get('x-api-key');
-  
+
   // Primero intentar validación legacy (API key maestra)
   const isLegacyValid = validateApiKeyLegacyString(apiKey);
-  
+
+  let authResult: any = { isValid: false };
+
   if (!isLegacyValid) {
     // Si no es la API key maestra, validar con base de datos
-    const authResult = await validateApiKey(apiKey);
-    
+    authResult = await validateApiKey(apiKey);
+
     if (!authResult.isValid) {
       return NextResponse.json(
         { error: authResult.error || 'API key inválida' },
         { status: 401 }
       );
     }
+  } else {
+    // Es la API key maestra
+    authResult = { isValid: true, user: { id: 'master' }, apiKey: { id: 'master' } };
   }
   try {
     // Verificar si el archivo existe
@@ -38,7 +43,7 @@ export async function GET(request: NextRequest) {
     const agencias = JSON.parse(data);
 
     // Devolver los datos exactamente como vienen de la API externa
-    
+
     // Registrar uso y log
     if (authResult.isValid && authResult.user && authResult.apiKey) {
       const duration = Date.now() - startTime;
@@ -58,7 +63,7 @@ export async function GET(request: NextRequest) {
         duration
       );
     }
-    
+
     return NextResponse.json(agencias);
   } catch (error) {
     console.error('Error al leer datos de agencias:', error);
