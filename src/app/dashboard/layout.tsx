@@ -14,7 +14,8 @@ import {
   MoonIcon,
   Bars3Icon,
   XMarkIcon,
-  ShieldCheckIcon
+  ShieldCheckIcon,
+  CreditCardIcon
 } from '@heroicons/react/24/outline';
 import Loader from '../components/Loader';
 import { useTheme } from 'next-themes';
@@ -57,6 +58,7 @@ export default function DashboardLayout({
     { name: 'Logs', href: '/dashboard/logs', icon: ClipboardDocumentListIcon },
     { name: 'Documentación', href: '/dashboard/docs', icon: BookOpenIcon },
     { name: 'Perfil', href: '/dashboard/profile', icon: UserCircleIcon },
+    { name: 'Planes', href: 'https://shalom-api.com/pricing/', icon: CreditCardIcon },
   ];
 
   if (user?.role === 'admin') {
