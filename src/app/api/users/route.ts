@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createUser, createApiKey, getUsageStats, getAllUsers } from '../../../lib/database';
 import { connectDatabase, prisma } from '../../../lib/database';
 import { validateApiKeyLegacyString } from '../../../lib/auth';
+import { Prisma } from '@/generated/prisma';
 
 // Conectar a la base de datos al inicializar
 connectDatabase();
@@ -61,10 +62,10 @@ export async function POST(request: NextRequest) {
         createdAt: newApiKey.createdAt,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creando usuario:', error);
     
-    if (error.code === 'P2002') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
       return NextResponse.json(
         { error: 'El email ya está registrado' },
         { status: 409 }
@@ -150,7 +151,7 @@ export async function PATCH(request: NextRequest) {
           );
         }
 
-        const updateData: any = {};
+        const updateData: Prisma.ApiKeyUpdateInput = {};
         if (typeof isActive === 'boolean') updateData.isActive = isActive;
         // monthlyLimit se ignora ya que el límite es por usuario
         if (typeof name === 'string') updateData.name = name;
@@ -215,10 +216,10 @@ export async function PATCH(request: NextRequest) {
           { status: 400 }
         );
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error gestionando API keys:', error);
     
-    if (error.code === 'P2025') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
       return NextResponse.json(
         { error: 'Recurso no encontrado' },
         { status: 404 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/database';
 import { verifyPassword, hashPassword } from '@/lib/password';
+import { Prisma } from '@/generated/prisma';
 
 export async function PUT(request: NextRequest) {
   try {
@@ -52,7 +53,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // 3. Preparar datos para actualizar
-    const updateData: any = {};
+    const updateData: Prisma.UserUpdateInput = {};
     
     if (name) {
       updateData.name = name;

@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -17,9 +15,25 @@ import {
 import Loader from '../components/Loader';
 import { toast } from 'sonner';
 
+interface DashboardData {
+  user: {
+    id: string;
+    name: string | null;
+    email: string;
+    monthlyLimit: number;
+  };
+  usage: {
+    total: number;
+    remaining: number;
+    limit: number;
+  };
+  apiKey: string | null;
+  dailyStats: { date: string; count: number }[];
+}
+
 export default function DashboardPage() {
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,8 +54,9 @@ export default function DashboardPage() {
 
         const dashboardData = await res.json();
         setData(dashboardData);
-      } catch (err: any) {
-        toast.error('Error al cargar datos del dashboard: ' + err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Error desconocido';
+        toast.error('Error al cargar datos del dashboard: ' + message);
       } finally {
         setLoading(false);
       }

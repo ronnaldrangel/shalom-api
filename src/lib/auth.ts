@@ -145,8 +145,8 @@ export async function authMiddleware(
   endpoint: string
 ): Promise<{
   success: boolean;
-  user?: any;
-  apiKey?: any;
+  user?: AuthResult['user'];
+  apiKey?: AuthResult['apiKey'];
   rateLimitHeaders?: Record<string, string>;
   error?: string;
   status?: number;

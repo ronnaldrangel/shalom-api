@@ -6,9 +6,14 @@ import { ClipboardDocumentCheckIcon, ClipboardDocumentIcon } from '@heroicons/re
 import Loader from '../../components/Loader';
 import { toast } from 'sonner';
 
+interface DashboardData {
+  apiKey?: string;
+  [key: string]: unknown;
+}
+
 export default function ApiKeyPage() {
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
 
@@ -30,8 +35,9 @@ export default function ApiKeyPage() {
 
         const dashboardData = await res.json();
         setData(dashboardData);
-      } catch (err: any) {
-        toast.error('Error al cargar datos: ' + err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Error desconocido';
+        toast.error('Error al cargar datos: ' + message);
       } finally {
         setLoading(false);
       }

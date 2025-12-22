@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { validateApiKey, validateApiKeyLegacyString } from '@/lib/auth';
+import { validateApiKey, validateApiKeyLegacyString, AuthResult } from '@/lib/auth';
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'agencias.json');
 
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   // Primero intentar validación legacy (API key maestra)
   const isLegacyValid = validateApiKeyLegacyString(apiKey);
 
-  let authResult: any = { isValid: false };
+  let authResult: AuthResult = { isValid: false };
 
   if (!isLegacyValid) {
     // Si no es la API key maestra, validar con base de datos
@@ -27,7 +27,11 @@ export async function GET(request: NextRequest) {
     }
   } else {
     // Es la API key maestra
-    authResult = { isValid: true, user: { id: 'master' }, apiKey: { id: 'master' } };
+    authResult = { 
+      isValid: true, 
+      user: { id: 'master', email: 'master@system' }, 
+      apiKey: { id: 'master', name: 'Master Key', monthlyLimit: Infinity } 
+    };
   }
   try {
     // Verificar si el archivo existe

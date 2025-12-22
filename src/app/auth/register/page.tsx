@@ -48,8 +48,9 @@ export default function RegisterPage() {
             } else {
                 router.push('/auth/login?registered=true');
             }
-        } catch (err: any) {
-            toast.error(err.message);
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Error al registrarse';
+            toast.error(message);
         } finally {
             setLoading(false);
         }
@@ -79,8 +80,9 @@ export default function RegisterPage() {
 
             toast.success('Cuenta verificada correctamente');
             router.push('/auth/login?registered=true');
-        } catch (err: any) {
-            toast.error(err.message);
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Error al verificar código';
+            toast.error(message);
         } finally {
             setLoading(false);
         }

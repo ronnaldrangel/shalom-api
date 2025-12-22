@@ -33,7 +33,17 @@ export async function GET(
         `;
         const total = Number(totalResult[0]?.count || 0);
         
-        const logsRaw = await prisma.$queryRaw<any[]>`
+        const logsRaw = await prisma.$queryRaw<Array<{
+          id: string;
+          endpoint: string;
+          method: string;
+          status: number;
+          ip: string;
+          duration: number;
+          createdAt: Date;
+          userAgent: string;
+          apiKeyName: string | null;
+        }>>`
           SELECT 
             l.id, l.endpoint, l.method, l.status, l.ip, l.duration, l."createdAt", l."userAgent",
             k.name as "apiKeyName"

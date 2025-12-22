@@ -9,12 +9,17 @@ interface HeaderProps {
     description?: string;
 }
 
+interface User {
+    id: string;
+    email: string;
+    name?: string;
+}
+
 export default function Header({
     lastUpdated,
-    title,
     description = "Consulta todas las agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de agencias."
 }: HeaderProps) {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');

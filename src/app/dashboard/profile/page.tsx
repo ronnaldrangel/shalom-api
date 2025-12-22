@@ -5,9 +5,15 @@ import { useRouter } from 'next/navigation';
 import Loader from '../../components/Loader';
 import { toast } from 'sonner';
 
+interface User {
+  id: string;
+  email: string;
+  name?: string;
+}
+
 export default function ProfilePage() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Estados separados para los dos formularios
@@ -45,6 +51,8 @@ export default function ProfilePage() {
   const handleNameSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!user) return;
+
     try {
       const res = await fetch('/api/user/update', {
         method: 'PUT',
@@ -70,14 +78,17 @@ export default function ProfilePage() {
       setUser(updatedUser);
 
       toast.success('Nombre actualizado correctamente');
-    } catch (error: any) {
-      toast.error(error.message || 'Error al actualizar el nombre');
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Error al actualizar el nombre';
+      toast.error(message);
     }
   };
 
   // Función para cambiar contraseña
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!user) return;
 
     if (!passwordData.newPassword || !passwordData.confirmPassword) {
       toast.error('Completa todos los campos');
@@ -121,8 +132,9 @@ export default function ProfilePage() {
         newPassword: '',
         confirmPassword: '',
       });
-    } catch (error: any) {
-      toast.error(error.message || 'Error al actualizar la contraseña');
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Error al actualizar la contraseña';
+      toast.error(message);
     }
   };
 

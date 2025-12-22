@@ -47,8 +47,9 @@ function LoginForm() {
             toast.success('Sesión iniciada correctamente');
             localStorage.setItem('user', JSON.stringify(data.user));
             router.push('/dashboard');
-        } catch (err: any) {
-            toast.error(err.message);
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Error al iniciar sesión';
+            toast.error(message);
         } finally {
             setLoading(false);
         }
