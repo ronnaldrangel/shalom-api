@@ -15,7 +15,8 @@ import {
   Bars3Icon,
   XMarkIcon,
   ShieldCheckIcon,
-  CreditCardIcon
+  CreditCardIcon,
+  ArrowTopRightOnSquareIcon
 } from '@heroicons/react/24/outline';
 import Loader from '../components/Loader';
 import { useTheme } from 'next-themes';
@@ -58,7 +59,7 @@ export default function DashboardLayout({
     { name: 'Logs', href: '/dashboard/logs', icon: ClipboardDocumentListIcon },
     { name: 'Documentación', href: '/dashboard/docs', icon: BookOpenIcon },
     { name: 'Perfil', href: '/dashboard/profile', icon: UserCircleIcon },
-    { name: 'Planes', href: 'https://shalom-api.com/pricing/', icon: CreditCardIcon },
+    { name: 'Planes', href: 'https://shalom-api.com/pricing/', icon: CreditCardIcon, external: true },
   ];
 
   if (user?.role === 'admin') {
@@ -93,6 +94,8 @@ export default function DashboardLayout({
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsSidebarOpen(false)}
+                    target={item.external ? '_blank' : undefined}
+                    rel={item.external ? 'noopener noreferrer' : undefined}
                     className={`${isActive
                       ? 'bg-brand-red/5 text-brand-red dark:bg-brand-red/10 dark:text-red-400'
                       : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800/50 dark:hover:text-white'
@@ -100,6 +103,9 @@ export default function DashboardLayout({
                   >
                     <item.icon className={`${isActive ? 'text-brand-red' : 'text-gray-400 dark:text-gray-500'} mr-3 h-5 w-5`} />
                     {item.name}
+                    {item.external && (
+                      <ArrowTopRightOnSquareIcon className="ml-auto h-4 w-4 text-gray-400" />
+                    )}
                   </Link>
                 );
               })}
@@ -147,6 +153,8 @@ export default function DashboardLayout({
                       <Link
                         key={item.name}
                         href={item.href}
+                        target={item.external ? '_blank' : undefined}
+                        rel={item.external ? 'noopener noreferrer' : undefined}
                         className={`${isActive
                           ? 'bg-brand-red/5 text-brand-red dark:bg-brand-red/10 dark:text-red-400'
                           : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800/50 dark:hover:text-white'
@@ -160,6 +168,9 @@ export default function DashboardLayout({
                           aria-hidden="true"
                         />
                         {item.name}
+                        {item.external && (
+                          <ArrowTopRightOnSquareIcon className="ml-auto h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300" />
+                        )}
                         {isActive && (
                           <span className="ml-auto w-1.5 h-1.5 rounded-full bg-brand-red shadow-[0_0_8px_rgba(238,42,47,0.5)]" />
                         )}
