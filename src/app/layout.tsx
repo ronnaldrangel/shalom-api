@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     images: ["/cover.png"]
   },
   alternates: {
-    canonical: "https://shalom-api.live"
+    canonical: "https://app.shalom-api.com"
   },
   icons: {
     icon: "/favicon.ico",
@@ -75,6 +75,7 @@ export const metadata: Metadata = {
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "sonner";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 export default function RootLayout({
   children,
@@ -86,7 +87,7 @@ export default function RootLayout({
     "@type": "WebApplication",
     "name": "Shalom API - API Oficial de Agencias Shalom",
     "description": "Shalom API oficial para consultar todas las agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de agencias Shalom. API gratuita para desarrolladores.",
-    "url": "https://shalom-api.live",
+    "url": "https://app.shalom-api.com",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Web",
     "offers": {
@@ -120,6 +121,7 @@ export default function RootLayout({
         >
           <Toaster position="top-center" richColors />
           {children}
+          <WhatsAppButton />
         </ThemeProvider>
       </body>
     </html>

@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://shalom-api.live/sitemap.xml
+Sitemap: https://app.shalom-api.com/sitemap.xml
 
 # Permitir indexación de API endpoints
 Allow: /api/listar
