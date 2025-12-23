@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { 
-  TrashIcon, 
-  PencilIcon, 
+import {
+  TrashIcon,
+  PencilIcon,
   ArrowLeftIcon,
   CheckIcon,
   XMarkIcon,
@@ -26,6 +26,8 @@ interface User {
   email: string;
   role: string;
   monthlyLimit: number;
+  currentUsage: number;
+  remaining: number;
   createdAt: string;
   isVerified: boolean;
   apiKeys: ApiKey[];
@@ -50,15 +52,15 @@ export default function AdminDashboard() {
     try {
       const storedUser = localStorage.getItem('user');
       const currentUser = storedUser ? JSON.parse(storedUser) : null;
-      
+
       const res = await fetch('/api/admin/users', {
         headers: {
           'x-admin-id': currentUser?.id || ''
         }
       });
-      
+
       if (!res.ok) throw new Error('Error al cargar usuarios');
-      
+
       const data = await res.json();
       setUsers(data.users);
     } catch (error) {
@@ -109,7 +111,7 @@ export default function AdminDashboard() {
       if (!res.ok) throw new Error('Error al actualizar');
 
       const updatedUser = await res.json();
-      
+
       setUsers(users.map(u => u.id === userId ? { ...u, ...data } : u));
       setEditingUser(null);
       toast.success('Usuario actualizado correctamente');
@@ -144,7 +146,7 @@ export default function AdminDashboard() {
     <div className="p-8 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={() => router.push('/dashboard')}
             className="p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-full transition-colors"
           >
@@ -166,6 +168,7 @@ export default function AdminDashboard() {
                 <th className="p-4 font-semibold text-gray-600 dark:text-gray-300">Email</th>
                 <th className="p-4 font-semibold text-gray-600 dark:text-gray-300">Rol</th>
                 <th className="p-4 font-semibold text-gray-600 dark:text-gray-300">Límite Mensual</th>
+                <th className="p-4 font-semibold text-gray-600 dark:text-gray-300">Consultas Restantes</th>
                 <th className="p-4 font-semibold text-gray-600 dark:text-gray-300">Estado</th>
                 <th className="p-4 font-semibold text-gray-600 dark:text-gray-300">API Key</th>
                 <th className="p-4 font-semibold text-gray-600 dark:text-gray-300 text-right">Acciones</th>
@@ -180,13 +183,12 @@ export default function AdminDashboard() {
                   </td>
                   <td className="p-4">{user.email}</td>
                   <td className="p-4">
-                    <button 
+                    <button
                       onClick={() => toggleRole(user)}
-                      className={`px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors ${
-                        user.role === 'admin' 
-                          ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-900/50' 
+                      className={`px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors ${user.role === 'admin'
+                          ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-900/50'
                           : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/50'
-                      }`}
+                        }`}
                       title="Click para cambiar rol"
                     >
                       {user.role}
@@ -201,13 +203,13 @@ export default function AdminDashboard() {
                           value={newLimit}
                           onChange={(e) => setNewLimit(parseInt(e.target.value) || 0)}
                         />
-                        <button 
+                        <button
                           onClick={() => handleUpdateUser(user.id, { monthlyLimit: newLimit })}
                           className="text-green-600 hover:text-green-700"
                         >
                           <CheckIcon className="w-5 h-5" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => setEditingUser(null)}
                           className="text-red-600 hover:text-red-700"
                         >
@@ -217,7 +219,7 @@ export default function AdminDashboard() {
                     ) : (
                       <div className="flex items-center gap-2">
                         <span>{user.monthlyLimit}</span>
-                        <button 
+                        <button
                           onClick={() => {
                             setEditingUser(user.id);
                             setNewLimit(user.monthlyLimit);
@@ -227,7 +229,7 @@ export default function AdminDashboard() {
                         >
                           <PencilIcon className="w-4 h-4" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => resetUsage(user)}
                           className="text-gray-400 hover:text-orange-500 transition-colors"
                           title="Resetear consumo mensual"
@@ -238,13 +240,24 @@ export default function AdminDashboard() {
                     )}
                   </td>
                   <td className="p-4">
-                    <button 
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">{user.remaining}</span>
+                      <span className="text-xs text-gray-500">/ {user.monthlyLimit}</span>
+                    </div>
+                    <div className="mt-1 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                      <div
+                        className="bg-blue-500 h-1.5 rounded-full transition-all"
+                        style={{ width: `${(user.remaining / user.monthlyLimit) * 100}%` }}
+                      />
+                    </div>
+                  </td>
+                  <td className="p-4">
+                    <button
                       onClick={() => toggleVerification(user)}
-                      className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors ${
-                        user.isVerified 
-                          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/50' 
+                      className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors ${user.isVerified
+                          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/50'
                           : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-900/50'
-                      }`}
+                        }`}
                       title="Click para cambiar estado"
                     >
                       <ShieldCheckIcon className="w-3 h-3" />
@@ -258,7 +271,7 @@ export default function AdminDashboard() {
                           <code className="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded text-xs font-mono">
                             {user.apiKeys?.[0]?.key || 'Sin API Key'}
                           </code>
-                          <button 
+                          <button
                             onClick={() => setShowApiKey(null)}
                             className="text-gray-400 hover:text-gray-600"
                           >
@@ -266,7 +279,7 @@ export default function AdminDashboard() {
                           </button>
                         </div>
                       ) : (
-                        <button 
+                        <button
                           onClick={() => setShowApiKey(user.id)}
                           className="text-gray-400 hover:text-blue-500 transition-colors flex items-center gap-1 text-xs"
                           title="Ver API Key"

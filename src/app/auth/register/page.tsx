@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -12,6 +14,7 @@ export default function RegisterPage() {
         name: '',
         email: '',
         password: '',
+        phone: '',
     });
     const [verificationCode, setVerificationCode] = useState('');
     const [showVerification, setShowVerification] = useState(false);
@@ -137,6 +140,19 @@ export default function RegisterPage() {
                                 placeholder="nombre@ejemplo.com"
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label htmlFor="phone" className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">
+                                Número de WhatsApp
+                            </label>
+                            <PhoneInput
+                                international
+                                defaultCountry="US"
+                                value={formData.phone}
+                                onChange={(value) => setFormData({ ...formData, phone: value || '' })}
+                                className="block w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all duration-200 sm:text-sm"
                             />
                         </div>
 

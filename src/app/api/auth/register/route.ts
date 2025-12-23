@@ -10,7 +10,7 @@ function generateVerificationCode(): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password, name } = await request.json();
+    const { email, password, name, phone } = await request.json();
 
     if (!email || !password) {
       return NextResponse.json(
@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
       data: {
         email,
         name,
+        phone,
         password: hashedPassword,
         monthlyLimit: 10,
         isVerified: false,

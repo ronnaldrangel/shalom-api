@@ -16,6 +16,7 @@ model User {
   email             String   @unique
   password          String?  // Contraseña encriptada
   name              String?
+  phone             String?  // Número de teléfono
   role              String   @default("user") // "user" | "admin"
   monthlyLimit      Int      @default(10) // Límite mensual de consultas por usuario
   

@@ -40,7 +40,33 @@ export async function GET(request: NextRequest) {
       }
     });
 
-    return NextResponse.json({ users });
+    // Calculate usage for each user
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+
+    const usersWithUsage = await Promise.all(
+      users.map(async (user) => {
+        const usage = await prisma.usage.findMany({
+          where: {
+            userId: user.id,
+            month: currentMonth,
+            year: currentYear
+          }
+        });
+
+        const totalUsage = usage.reduce((sum, u) => sum + u.count, 0);
+        const remaining = Math.max(0, user.monthlyLimit - totalUsage);
+
+        return {
+          ...user,
+          currentUsage: totalUsage,
+          remaining
+        };
+      })
+    );
+
+    return NextResponse.json({ users: usersWithUsage });
   } catch (error) {
     console.error('Error fetching users:', error);
     return NextResponse.json({ error: 'Error interno' }, { status: 500 });
@@ -107,9 +133,9 @@ export async function PATCH(request: NextRequest) {
       data: updateData,
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       message: 'Usuario actualizado correctamente',
-      user: updatedUser 
+      user: updatedUser
     });
   } catch (error) {
     console.error('Error updating user:', error);
