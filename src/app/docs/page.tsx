@@ -91,7 +91,7 @@ export default function DocsPage() {
                   const message = encodeURIComponent(
                     "Hola, me gustaría solicitar acceso al API key de Shalom API. Gracias!"
                   );
-                  window.open(`https://wa.me/51924079147?text=${message}`, '_blank');
+                  window.open(`https://wa.me/51920789569?text=${message}`, '_blank');
                 }}
                 className="ml-2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded transition-colors"
               >
