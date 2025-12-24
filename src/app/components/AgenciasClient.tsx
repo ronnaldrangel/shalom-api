@@ -225,7 +225,7 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
                 placeholder="Busca agencia..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full h-11 md:h-14 pl-10 pr-10 bg-gray-50 dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-800 rounded-2xl text-sm md:text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-brand-red/5 focus:border-brand-red transition-all duration-200 font-medium"
+                className="w-full h-11 md:h-14 pl-10 pr-10 bg-gray-50 dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-800 rounded-2xl text-base text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-brand-red/5 focus:border-brand-red transition-all duration-200 font-medium"
               />
               <MagnifyingGlassIcon className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 h-4 w-4 md:h-5 md:w-5 text-gray-400 group-focus-within:text-brand-red transition-colors" />
               {searchTerm && (
