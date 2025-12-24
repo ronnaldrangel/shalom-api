@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 
 export default function Footer() {
-    const { theme, setTheme, resolvedTheme } = useTheme();
+    const { setTheme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -26,8 +26,10 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                     <div className="space-y-4 text-center md:text-left">
                         <div className="flex items-center justify-center md:justify-start gap-2 h-8">
-                            <img src="/logos/logo_red.svg" alt="Shalom API" className="h-4 w-auto dark:hidden" />
-                            <img src="/logos/logo_white.svg" alt="Shalom API" className="h-4 w-auto hidden dark:block" />
+                            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                                <span className="text-brand-red font-black text-sm">S</span>
+                            </span>
+                            <span className="text-sm font-bold text-gray-900 dark:text-white tracking-wide">Shalom API</span>
                         </div>
                         <p className="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto md:mx-0">
                            Esta API no es oficial ni está afiliada a Shalom. Su uso es exclusivamente con fines de investigación, análisis y pruebas técnicas. No cuenta con autorización, validación ni soporte por parte de Shalom, y cualquier referencia a la marca es únicamente con fines informativos.

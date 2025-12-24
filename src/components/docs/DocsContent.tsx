@@ -17,10 +17,18 @@ export default function DocsContent({ showTitle = true }: DocsContentProps) {
         <div className="space-y-8">
             {/* Introducción */}
             <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 border border-gray-100 dark:border-gray-800">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                    <DocumentTextIcon className="w-6 h-6 mr-2 text-red-600" />
-                    Introducción
-                </h2>
+                {showTitle && (
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                        <DocumentTextIcon className="w-6 h-6 mr-2 text-red-600" />
+                        Introducción
+                    </h2>
+                )}
+                {!showTitle && (
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                        <DocumentTextIcon className="w-6 h-6 mr-2 text-red-600" />
+                        Introducción
+                    </h2>
+                )}
                 <p className="text-gray-700 dark:text-gray-300 mb-4">
                     Shalom API es una aplicación web que sincroniza y muestra información de agencias de Shalom.
                     Proporciona una interfaz web intuitiva para visualizar las agencias y endpoints API para integración.

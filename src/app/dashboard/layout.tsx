@@ -59,7 +59,7 @@ export default function DashboardLayout({
     { name: 'Logs', href: '/dashboard/logs', icon: ClipboardDocumentListIcon },
     { name: 'Documentación', href: '/dashboard/docs', icon: BookOpenIcon },
     { name: 'Perfil', href: '/dashboard/profile', icon: UserCircleIcon },
-    { name: 'Planes', href: 'https://shalom-api.com/pricing/', icon: CreditCardIcon, external: true },
+    { name: 'Planes', href: 'https://wa.link/mwbcer', icon: CreditCardIcon, external: true },
   ];
 
   if (user?.role === 'admin') {
@@ -78,8 +78,10 @@ export default function DashboardLayout({
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between px-6 pt-8 pb-4">
               <Link href="/" onClick={() => setIsSidebarOpen(false)} className="flex items-center hover:opacity-80 transition-opacity">
-                <img src="/logos/logo_red.svg" alt="Shalom API" className="h-4 w-auto dark:hidden" />
-                <img src="/logos/logo_white.svg" alt="Shalom API" className="h-4 w-auto hidden dark:block" />
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 mr-2">
+                  <span className="text-brand-red font-black text-sm">S</span>
+                </span>
+                <span className="text-base font-bold text-gray-900 dark:text-white tracking-wide">Shalom API</span>
               </Link>
               <button onClick={() => setIsSidebarOpen(false)} className="p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white rounded-lg">
                 <XMarkIcon className="h-6 w-6" />
@@ -142,8 +144,10 @@ export default function DashboardLayout({
             <div className="flex flex-col h-0 flex-1 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 shadow-xl shadow-gray-200/50 dark:shadow-none">
               <div className="flex-1 flex flex-col pt-8 pb-4 overflow-y-auto">
                 <Link href="/" className="flex items-center flex-shrink-0 px-6 mb-10 hover:opacity-80 transition-opacity">
-                  <img src="/logos/logo_red.svg" alt="Shalom API" className="h-4 w-auto dark:hidden" />
-                  <img src="/logos/logo_white.svg" alt="Shalom API" className="h-4 w-auto hidden dark:block" />
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 mr-2">
+                    <span className="text-brand-red font-black text-sm">S</span>
+                  </span>
+                  <span className="text-base font-bold text-gray-900 dark:text-white tracking-wide">Shalom API</span>
                 </Link>
 
                 <nav className="mt-2 flex-1 px-4 space-y-1.5">
@@ -213,8 +217,10 @@ export default function DashboardLayout({
           {/* Mobile Topbar */}
           <div className="md:hidden flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <img src="/logos/logo_red.svg" alt="Shalom API" className="h-4 w-auto dark:hidden" />
-              <img src="/logos/logo_white.svg" alt="Shalom API" className="h-4 w-auto hidden dark:block" />
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                <span className="text-brand-red font-black text-sm">S</span>
+              </span>
+              <span className="text-sm font-bold text-gray-900 dark:text-white tracking-wide">Shalom API</span>
             </Link>
             <button
               onClick={() => setIsSidebarOpen(true)}

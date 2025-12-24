@@ -29,7 +29,7 @@ export default function AdminLayout({
         return;
       }
       setAuthorized(true);
-    } catch (e) {
+    } catch {
       router.push('/auth/login');
     }
   }, [router]);

@@ -94,7 +94,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { action, userId, apiKeyId, name, monthlyLimit, isActive } = body;
+    const { action, userId, apiKeyId, name, isActive } = body;
 
     if (!action) {
       return NextResponse.json(

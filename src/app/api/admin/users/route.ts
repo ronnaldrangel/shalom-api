@@ -110,6 +110,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'ID de usuario requerido' }, { status: 400 });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateData: any = {};
 
     if (monthlyLimit !== undefined) updateData.monthlyLimit = Number(monthlyLimit);

@@ -1,7 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useTheme } from 'next-themes';
-import Link from 'next/link';
 import {
   MagnifyingGlassIcon,
   XMarkIcon,
@@ -10,8 +8,6 @@ import {
   MapPinIcon,
   ArrowRightCircleIcon,
   ArrowDownTrayIcon,
-  SunIcon,
-  MoonIcon
 } from '@heroicons/react/24/outline';
 import Footer from './Footer';
 import Header from './Header';
@@ -65,19 +61,6 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
   const [agencias] = useState<Agencia[]>(initialAgencias);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isMinimalMode, setIsMinimalMode] = useState(true);
-  const { setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // When mounted on client, now we can show the UI
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const isDarkMode = resolvedTheme === 'dark';
-
-  const toggleTheme = () => {
-    setTheme(isDarkMode ? 'light' : 'dark');
-  };
 
 
   const [isClient, setIsClient] = useState(false);

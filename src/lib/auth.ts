@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateApiKey as dbValidateApiKey, checkMonthlyLimit, incrementUsage, logRequest } from './database';
 
-// API Key para autenticación
-const API_KEY = process.env.API_KEY || 'shalom-api-key-2024';
-
 export interface AuthResult {
   isValid: boolean;
   user?: {
@@ -61,12 +58,10 @@ export async function validateApiKey(apiKey: string | null): Promise<AuthResult>
 
 // Función para verificar límite de uso por usuario
 export async function checkRateLimit(
-  userId: string,
-  apiKeyId: string,
-  endpoint: string
+  userId: string
 ): Promise<RateLimitResult> {
   try {
-    const limitCheck = await checkMonthlyLimit(userId, apiKeyId, endpoint);
+    const limitCheck = await checkMonthlyLimit(userId);
     
     return {
       allowed: limitCheck.allowed,
@@ -190,9 +185,9 @@ export async function authMiddleware(
   }
 
   // Verificar rate limit
-  const rateLimitResult = await checkRateLimit(authResult.user!.id, authResult.apiKey!.id, endpoint);
-  
-  if (!rateLimitResult.allowed) {
+    const rateLimitResult = await checkRateLimit(authResult.user!.id);
+    
+    if (!rateLimitResult.allowed) {
     return {
       success: false,
       error: `Límite mensual excedido. Uso actual: ${rateLimitResult.currentUsage}/${rateLimitResult.limit}`,

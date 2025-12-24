@@ -9,7 +9,7 @@ export async function GET() {
       uptime: process.uptime(),
       message: 'API funcionando correctamente'
     }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({
       status: 'error',
       timestamp: new Date().toISOString(),

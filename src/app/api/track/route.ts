@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
         '/api/track',
         'POST',
         response.status,
-        request.headers.get('x-forwarded-for') || request.ip,
+        request.headers.get('x-forwarded-for') || undefined,
         request.headers.get('user-agent') || undefined,
         duration
       );

@@ -174,9 +174,7 @@ export async function incrementUsage(
 
 // Función para verificar límite mensual por usuario
 export async function checkMonthlyLimit(
-  userId: string,
-  apiKeyId: string,
-  endpoint: string
+  userId: string
 ): Promise<{ allowed: boolean; currentUsage: number; limit: number }> {
   const user = await prisma.user.findUnique({
     where: { id: userId },

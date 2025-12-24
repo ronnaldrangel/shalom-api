@@ -63,8 +63,7 @@ export default function AdminDashboard() {
 
       const data = await res.json();
       setUsers(data.users);
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error('No se pudieron cargar los usuarios');
     } finally {
       setLoading(false);
@@ -89,11 +88,12 @@ export default function AdminDashboard() {
 
       setUsers(users.filter(u => u.id !== userId));
       toast.success('Usuario eliminado');
-    } catch (error) {
+    } catch {
       toast.error('Error al eliminar usuario');
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUpdateUser = async (userId: string, data: any) => {
     try {
       const storedUser = localStorage.getItem('user');
@@ -110,12 +110,12 @@ export default function AdminDashboard() {
 
       if (!res.ok) throw new Error('Error al actualizar');
 
-      const updatedUser = await res.json();
+      await res.json();
 
       setUsers(users.map(u => u.id === userId ? { ...u, ...data } : u));
       setEditingUser(null);
       toast.success('Usuario actualizado correctamente');
-    } catch (error) {
+    } catch {
       toast.error('Error al actualizar usuario');
     }
   };

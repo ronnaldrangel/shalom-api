@@ -16,7 +16,6 @@ interface User {
 }
 
 export default function Header({
-    lastUpdated,
     description = "Consulta todas las agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de agencias."
 }: HeaderProps) {
     const [user, setUser] = useState<User | null>(null);
@@ -28,21 +27,16 @@ export default function Header({
         }
     }, []);
 
-    const formattedDate = lastUpdated
-        ? new Date(lastUpdated).toLocaleDateString('es-ES', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        })
-        : null;
-
     return (
         <header className="bg-brand-red shadow-lg shadow-brand-red/10 border-b border-brand-red/20">
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6">
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between gap-4">
                         <Link href="/" className="flex items-center gap-3 active:scale-95 transition-transform">
-                            <img src="/logos/logo_white.svg" alt="Shalom API" className="h-4 w-auto" />
+                            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-white/20 bg-white">
+                                <span className="text-brand-red font-black text-sm">S</span>
+                            </span>
+                            <span className="text-sm font-bold text-white tracking-wide">Shalom API</span>
                         </Link>
 
                         <div className="flex items-center gap-2 p-1 bg-black/10 rounded-xl backdrop-blur-sm border border-white/5">

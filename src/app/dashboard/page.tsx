@@ -12,8 +12,7 @@ import {
   Area,
   PieChart,
   Pie,
-  Cell,
-  Legend
+  Cell
 } from 'recharts';
 import Loader from '../components/Loader';
 import { toast } from 'sonner';
@@ -126,7 +125,7 @@ export default function DashboardPage() {
             <span className="ml-2 text-sm font-medium text-gray-400">mensual</span>
           </dd>
           <div className="mt-6 flex items-center text-sm font-semibold text-brand-red">
-            <a href="https://shalom-api.com/pricing/" target="_blank" rel="noopener noreferrer" className="hover:underline">
+            <a href="https://wa.link/mwbcer" target="_blank" rel="noopener noreferrer" className="hover:underline">
               Mejorar mi plan
             </a>
             <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

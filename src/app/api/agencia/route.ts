@@ -30,9 +30,7 @@ export async function GET(request: NextRequest) {
     // quizás solo logueamos intentos fallidos si tenemos la API key (aunque sea inválida)
     // Por ahora, solo logueamos requests exitosos o con rate limit excedido si tenemos userId
     if (authResult.status === 429 && authResult.user && authResult.apiKey) {
-      const duration = Date.now() - startTime;
-      const ip = request.headers.get('x-forwarded-for') || 'unknown';
-      const userAgent = request.headers.get('user-agent') || 'unknown';
+      // Variables unused here, but logic kept for structure
       
       // Registrar intento fallido por rate limit
       // recordUsage ya se encarga de logRequest si lo llamamos apropiadamente, pero aquí falló el middleware.
