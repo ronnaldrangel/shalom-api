@@ -6,7 +6,7 @@ import DocsContent from '../../components/docs/DocsContent';
 
 export default function DocsPage() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black">
+    <div className="min-h-screen bg-gray-50 dark:bg-black font-sans">
       <Header
         title="Documentación - Shalom API"
         description="Guía completa para usar la API de agencias Shalom - Endpoints, ejemplos y mejores prácticas"

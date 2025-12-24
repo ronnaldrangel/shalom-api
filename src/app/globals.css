@@ -89,8 +89,8 @@
 
   --radius-xl: var(--radius);
 
-  --font-sans: "Inter", var(--font-geist-sans), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
 
   --shadow-sm: var(--shadow-sm);
   --shadow: var(--shadow);
@@ -102,7 +102,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

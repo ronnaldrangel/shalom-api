@@ -10,8 +10,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     const getBrandingContent = () => {
         if (pathname.includes('/login')) {
             return {
-                title: 'Agiliza tu logística con nuestra API oficial.',
-                description: 'Conecta tu negocio con la red de agencias más grande del país en segundos.',
+                title: 'Integra tu APP con nuestra API.',
+                description: 'Conecta tu negocio con la lista de agencias más grande del país en segundos.',
             };
         }
         if (pathname.includes('/register')) {
@@ -28,7 +28,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         }
         return {
             title: 'Tu aliado logístico digital.',
-            description: 'Integración oficial para gestionar tus envíos Shalom de forma inteligente.',
+            description: 'Integración para ver las agencias de Shalom.',
         };
     };
 
@@ -62,9 +62,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                     </div>
 
                     <div className="flex items-center gap-4 text-sm font-medium text-red-200">
-                        <span>© 2025 Shalom API</span>
-                        <span>•</span>
-                        <span>Powered by Wazend</span>
+                        <span>© 2025 Powered by Wazend</span>
                     </div>
                 </div>
             </div>

@@ -47,7 +47,7 @@ export default function DocsContent({ showTitle = true }: DocsContentProps) {
                     <p className="text-yellow-800 dark:text-yellow-200">
                         <strong>API Key:</strong> <code>[************]</code>
                         <Link
-                            href="/auth/register"
+                            href="/auth/login"
                             className="ml-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium px-2 py-1 rounded transition-colors"
                         >
                             Solicitar Acceso
@@ -62,7 +62,7 @@ export default function DocsContent({ showTitle = true }: DocsContentProps) {
                         <h4 className="font-semibold text-gray-900 dark:text-white mb-2">1. Header x-api-key</h4>
                         <pre className="bg-gray-100 dark:bg-black p-3 rounded text-sm overflow-x-auto text-gray-800 dark:text-gray-200">
                             <code>{`curl -H "x-api-key: $API_KEY" \
-   https://app.shalom-api.com/api/listar`}</code>
+   https://shalom-api.lat/api/listar`}</code>
                         </pre>
                     </div>
                 </div>
@@ -204,6 +204,24 @@ export default function DocsContent({ showTitle = true }: DocsContentProps) {
                                     /api/image?q=centro
                                 </a>
                             </div>
+                        </div>
+                    </div>
+
+                    {/* API de Tracking */}
+                    <div className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 md:col-span-2">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">📦 API de Tracking</h3>
+                        <code className="bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-200 px-2 py-1 rounded text-sm font-mono">POST /api/track</code>
+                        <p className="text-gray-600 dark:text-gray-400 mt-2">
+                            Permite realizar el seguimiento de un pedido utilizando el número de orden y el código de orden.
+                        </p>
+                        <div className="mt-4">
+                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ejemplo de Body (JSON):</p>
+                            <pre className="bg-gray-100 dark:bg-black p-3 rounded text-sm overflow-x-auto text-gray-800 dark:text-gray-200">
+                                {`{
+  "orderNumber": "66479331",
+  "orderCode": "3KTH"
+}`}
+                            </pre>
                         </div>
                     </div>
                 </div>

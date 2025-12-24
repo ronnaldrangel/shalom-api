@@ -144,7 +144,7 @@ function LoginForm() {
 
             <p className="text-center text-sm font-medium text-gray-600 dark:text-gray-400">
                 ¿No tienes una cuenta?{' '}
-                <Link href="/auth/register" className="font-bold text-brand-red hover:text-brand-red-hover transition-colors">
+                <Link href="https://wa.link/weoj81" className="font-bold text-brand-red hover:text-brand-red-hover transition-colors">
                     Regístrate gratis
                 </Link>
             </p>

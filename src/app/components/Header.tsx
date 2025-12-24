@@ -46,6 +46,15 @@ export default function Header({
                         </Link>
 
                         <div className="flex items-center gap-2 p-1 bg-black/10 rounded-xl backdrop-blur-sm border border-white/5">
+                            <Link
+                                href="/docs"
+                                className="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-bold text-white hover:bg-white/10 rounded-lg transition-all flex items-center gap-2"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                                Docs
+                            </Link>
                             {user ? (
                                 <Link
                                     href="/dashboard"
@@ -64,12 +73,12 @@ export default function Header({
                                     >
                                         Acceder
                                     </Link>
-                                    <Link
+                                    {/* <Link
                                         href="/auth/register"
                                         className="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-bold bg-white text-brand-red rounded-lg hover:bg-red-50 transition-all shadow-md"
                                     >
                                         Registro
-                                    </Link>
+                                    </Link> */}
                                 </>
                             )}
                         </div>
@@ -78,7 +87,7 @@ export default function Header({
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 hidden md:block ">
                         <div className="flex-1">
                             <p className="text-red-100 text-sm font-base opacity-90 max-w-2xl">
-                                {description} Actualizado: {formattedDate}
+                                {description}
                             </p>
                         </div>
                     </div>

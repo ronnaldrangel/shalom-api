@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import "@/lib/init"; // Inicializar servicios de la aplicación
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
@@ -64,7 +59,7 @@ export const metadata: Metadata = {
     images: ["/cover.png"]
   },
   alternates: {
-    canonical: "https://app.shalom-api.com"
+    canonical: "https://shalom-api.lat"
   },
   icons: {
     icon: "/favicon.ico",
@@ -87,7 +82,7 @@ export default function RootLayout({
     "@type": "WebApplication",
     "name": "Shalom API - API Oficial de Agencias Shalom",
     "description": "Shalom API oficial para consultar todas las agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de agencias Shalom. API gratuita para desarrolladores.",
-    "url": "https://app.shalom-api.com",
+    "url": "https://shalom-api.lat",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Web",
     "offers": {
@@ -111,7 +106,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${inter.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"

@@ -3,7 +3,7 @@ import path from 'path';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DATA_FILE = path.join(DATA_DIR, 'agencias.json');
-const API_URL = 'https://servicesweb.shalomcontrol.com/api/v1/web/agencias/listar';
+const API_URL = 'https://master.shalom-api.lat/list';
 
 export class AgenciasService {
   private static ensureDataDirectory() {
@@ -17,12 +17,10 @@ export class AgenciasService {
       console.log('Iniciando fetch de agencias desde API externa...');
       
       const response = await fetch(API_URL, {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        },
-        // Si la API requiere algún body específico, agrégalo aquí
-        body: JSON.stringify({})
+        }
       });
 
       if (!response.ok) {
