@@ -101,7 +101,6 @@ Visita [http://localhost:3000/docs](http://localhost:3000/docs) para ver la docu
 - Vista minimal y completa
 - Integración con Google Maps
 - Información de horarios y contacto
-- Descarga de tarifas en PDF
 - Diseño responsive
 
 ## 🚀 Despliegue

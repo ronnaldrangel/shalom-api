@@ -7,7 +7,6 @@ import {
   PhoneIcon,
   MapPinIcon,
   ArrowRightCircleIcon,
-  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 import Footer from './Footer';
 import Header from './Header';
@@ -187,22 +186,7 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
                   </div>
                 </div>
 
-                {/* Botón Ver tarifas */}
-                <div className="px-6 pb-6">
-                  <button
-                    onClick={() => {
-                      window.open(
-                        `https://servicesweb.shalomcontrol.com/api/v1/web/tarifa/pdf/${encodeURIComponent(agencia.ter_id)}`,
-                        "_blank",
-                        "noopener,noreferrer"
-                      );
-                    }}
-                    className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-bold text-brand-red dark:text-red-400 bg-white dark:bg-gray-800 border border-red-200 dark:border-brand-red/20 rounded-xl hover:bg-red-50 dark:hover:bg-brand-red/10 transition-all cursor-pointer shadow-sm group-hover:border-brand-red/40"
-                  >
-                    <ArrowDownTrayIcon className="w-4 h-4 mr-2 transition-transform group-hover:translate-y-0.5" />
-                    Descargar Tarifas
-                  </button>
-                </div>
+
               </>
             )}
           </div>
