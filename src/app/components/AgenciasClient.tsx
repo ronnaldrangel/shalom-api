@@ -234,6 +234,7 @@ export default function AgenciasClient({ initialAgencias, lastUpdated }: Agencia
                   <span className="text-[10px] md:text-xs font-black text-gray-500 dark:text-gray-400 uppercase tracking-tighter md:tracking-wider">COMPACTO</span>
                   <button
                     onClick={() => setIsMinimalMode(!isMinimalMode)}
+                    aria-label={isMinimalMode ? "Activar vista detallada" : "Activar vista compacta"}
                     suppressHydrationWarning
                     className={`relative inline-flex h-5 w-9 md:h-6 md:w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand-red/10 ${isMinimalMode ? 'bg-brand-red' : 'bg-gray-300 dark:bg-gray-700'}`}
                   >

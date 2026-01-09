@@ -14,7 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Shalom | Shalom API | Shalom Agencias - API Oficial de Agencias Shalom",
+  metadataBase: new URL("https://shalom-api.lat"),
+  title: {
+    default: "Shalom API - Oficial de Agencias Shalom",
+    template: "%s | Shalom API"
+  },
   description: "Shalom API oficial - Consulta todas las agencias Shalom en tiempo real. Shalom agencias con ubicaciones, horarios y servicios. API gratuita Shalom para desarrolladores. Encuentra tu agencia Shalom más cercana.",
   keywords: [
     "Shalom",
