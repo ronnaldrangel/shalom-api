@@ -16,10 +16,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://shalom-api.lat"),
   title: {
-    default: "Shalom API - Oficial de Agencias Shalom",
+    default: "Shalom API - Agencias Shalom",
     template: "%s | Shalom API"
   },
-  description: "Shalom API oficial - Consulta todas las agencias Shalom en tiempo real. Shalom agencias con ubicaciones, horarios y servicios. API gratuita Shalom para desarrolladores. Encuentra tu agencia Shalom más cercana.",
+  description: "Shalom API - Consulta todas las agencias Shalom en tiempo real. Shalom agencias con ubicaciones, horarios y servicios. API gratuita Shalom para desarrolladores. Encuentra tu agencia Shalom más cercana.",
   keywords: [
     "Shalom",
     "shalom api",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   robots: "index, follow",
   openGraph: {
     title: "Shalom | Shalom API | Shalom Agencias - Consulta Agencias en Tiempo Real",
-    description: "Shalom API oficial para consultar todas las agencias Shalom. Encuentra ubicaciones, horarios y servicios de agencias Shalom en tiempo real. API gratuita.",
+    description: "Shalom API para consultar todas las agencias Shalom. Encuentra ubicaciones, horarios y servicios de agencias Shalom en tiempo real. API gratuita.",
     type: "website",
     locale: "es_ES",
     siteName: "Shalom API",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Shalom | Shalom API | Shalom Agencias",
-    description: "API oficial Shalom - Consulta agencias Shalom en tiempo real. Ubicaciones, horarios y servicios de todas las agencias Shalom.",
+    description: "Shalom API - Consulta agencias Shalom en tiempo real. Ubicaciones, horarios y servicios de todas las agencias Shalom.",
     images: ["/cover.png"]
   },
   alternates: {
@@ -84,8 +84,8 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Shalom API - API Oficial de Agencias Shalom",
-    "description": "Shalom API oficial para consultar todas las agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de agencias Shalom. API gratuita para desarrolladores.",
+    "name": "Shalom API - API de Agencias Shalom",
+    "description": "Shalom API para consultar todas las agencias Shalom en tiempo real. Encuentra ubicaciones, horarios y servicios de agencias Shalom. API gratuita para desarrolladores.",
     "url": "https://shalom-api.lat",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Web",

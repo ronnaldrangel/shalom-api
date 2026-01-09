@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Shalom API - Agencias Oficial',
+    name: 'Shalom API - Agencias',
     short_name: 'Shalom API',
     description: 'Consulta todas las agencias Shalom en tiempo real. Ubicaciones, horarios y servicios.',
     start_url: '/',

@@ -32,15 +32,14 @@ export default function Footer() {
                             <span className="text-sm font-bold text-gray-900 dark:text-white tracking-wide">Shalom API</span>
                         </div>
                         <p className="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto md:mx-0">
-                           Esta API no es oficial ni está afiliada a Shalom. Su uso es exclusivamente con fines de investigación, análisis y pruebas técnicas. No cuenta con autorización, validación ni soporte por parte de Shalom, y cualquier referencia a la marca es únicamente con fines informativos.
+                            Esta API no es oficial ni está afiliada a Shalom. Su uso es exclusivamente con fines de investigación, análisis y pruebas técnicas. No cuenta con autorización, validación ni soporte por parte de Shalom, y cualquier referencia a la marca es únicamente con fines informativos.
                         </p>
 
-                        {/* <p className="text-xs font-bold text-gray-400 uppercase tracking-widest pt-4">
-                            Desarrollado con ❤️ por{' '}
-                            <a className="text-brand-red hover:underline" href="https://wazend.net/" target="_blank" rel="noopener noreferrer">
-                                Wazend
+                        <div className="flex flex-wrap justify-center md:justify-start gap-4 pt-4">
+                            <a href="/contact" className="text-xs font-bold text-gray-500 hover:text-brand-red transition-colors uppercase tracking-widest">
+                                Contacto
                             </a>
-                        </p> */}
+                        </div>
                     </div>
 
                     <div className="flex flex-col items-center md:items-end space-y-4">
